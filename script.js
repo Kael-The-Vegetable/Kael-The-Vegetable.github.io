@@ -20,7 +20,7 @@ function loadContent(page) {
     content.style.transition = 'opacity 0.5s ease'; // prepare for next fade
     // await sleep(1000); // (*) testing delay
 
-    /*
+    // fetch(`${page}.xml`) // fetch xml file
     fetch(`${page}.xml?timestamp=${new Date().getTime()}`, { // (!) unique url request to avoid caching
         headers: { // (!) additional no-caching parameters
             "Cache-Control": "no-cache, no-store, must-revalidate",
@@ -28,8 +28,6 @@ function loadContent(page) {
             "Expires": "0"
         }
     }) // fetch xml file
-    */
-   fetch(`${page}.xml`) // fetch xml file
         .then(response => {
             if (!response.ok) {
                 throw new Error('Content not found!');
