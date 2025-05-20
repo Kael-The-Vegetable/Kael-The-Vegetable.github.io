@@ -35,6 +35,7 @@ body {
 }
 .game {
 	display: flex;
+	gap: 1rem;
 	flex-direction: column;
 	justify-content: center;
 	position: sticky;
