@@ -4,7 +4,15 @@
 // - hash changes modify browser history
 // - this functionality keeps the game module uninterrupted
 
-const PAGES_PATH = `pages/`
+const PAGES_PATH = `pages/`;
+
+// initialization should run here for page load
+document.addEventListener(`DOMContentLoaded`, function() {
+    checkURL();
+});
+
+// triggers with forward/back buttons and url changes, check for hash
+window.onpopstate = function(event) { checkURL(); }
 
 function loadContent(page) {
     // show the active page link only
@@ -44,14 +52,7 @@ function loadContent(page) {
         });
 }
 
-console.log('I enjoy programming games, designing frameworks and building reusable components.');
-console.log('You\'re curiousity has been rewarded! Change the hash value to "#egg" and load the URL.');
-
-// triggers with forward/back buttons and url changes, check for hash
-window.onpopstate = function(event) { checkURL() }
-
-function checkURL()
-{
+function checkURL() {
     if (location.hash) {
         const page = location.hash.replace('#', '');
         loadContent(page); // load content from initial hash
@@ -60,7 +61,15 @@ function checkURL()
     }
 }
 
-// on initial page load check for a url hash
-checkURL()
+//#region Home Page
+// welcome to my portfolio
 
+let message = "I enjoy programming games,";
+message += " designing frameworks";
+message += " and building reusable components.";
+
+console.log(message);
+//#endregion
+
+console.log('You\'re curiousity has been rewarded! Change the hash value to "#egg" and load the URL.');
 // (*) if you are reading this, i wish i had the time to make an even more secret easter egg, but alas...
