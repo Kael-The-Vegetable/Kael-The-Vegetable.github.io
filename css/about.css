@@ -32,3 +32,15 @@
 	font-weight: 600;
 	color: #81afb5;
 }
+
+/*** SVG IMAGES ***/
+#svg-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+.comparison svg {
+	width: 4.5rem;
+	height: 1.5rem;
+}

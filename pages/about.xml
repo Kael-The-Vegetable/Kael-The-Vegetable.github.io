@@ -1,3 +1,21 @@
+<svg aria-hidden="true" id="svg-defs">
+    <defs>
+        <symbol id="right-win" viewBox="0 0 12 4">
+            <path d="M 6,4 8,2 6,0 4,2 Z" fill="#5da75d"></path>
+            <path d="M 8,4 10,2 8,0 h 2 l 2,2 -2,2 z" fill="#b7d974"></path>
+        </symbol>
+        <symbol id="left-win" viewBox="0 0 12 4">
+            <path d="M 2,0 0,2 2,4 H 4 L 2,2 4,0 Z" fill="#b7d974"></path>
+            <path d="M 6,4 8,2 6,0 4,2 Z" fill="#5da75d"></path>
+        </symbol>
+        <symbol id="both-win" viewBox="0 0 12 4">
+            <path d="M 2,0 0,2 2,4 H 4 L 2,2 4,0 Z" fill="#b7d974"></path>
+            <path d="M 6,4 8,2 6,0 4,2 Z" fill="#5da75d"></path>
+            <path d="M 8,4 10,2 8,0 h 2 l 2,2 -2,2 z" fill="#b7d974"></path>
+        </symbol>
+    </defs>
+</svg>
+
 <p>I'm a recent graduate of <a href="https://www.nait.ca" target="_blank">NAIT</a> in Edmonton, Alberta, Canada. I play bass guitar and enjoy rock and metal music. When I'm not playing Dungeons & Dragons, computer games or Magic The Gathering, I'm usually asleep.</p>
     
 <p>My name is pronounced like "kale," as in the vegetable. I think it might be useful to point out the differences between my phonetic doppleganger and myself.</p>
@@ -9,10 +27,7 @@
 <div class="comparison">
     <div>When dropped on a keyboard, kale can hit random keys, but the results are not reliable.</div>
     <div>
-        <svg viewBox="0 0 12 4" style="width:4.5rem; height:1.5rem;">
-            <path d="M 6,4 8,2 6,0 4,2 Z" fill="#5da75d" />
-            <path d="M 8,4 10,2 8,0 h 2 l 2,2 -2,2 z" fill="#b7d974" />
-        </svg>
+        <svg><use href="#right-win" /></svg>
         <nobr>0 - 1</nobr>
     </div>
     <div>I can type accurately on a keyboard and produce deliberate, working code.</div>
@@ -21,11 +36,7 @@
 <div class="comparison">
     <div>Kale is able to photosynthesize sun light and create oxygen for the environment.</div>
     <div>
-        <svg viewBox="0 0 12 4" style="width:4.5rem; height:1.5rem;">
-            <path d="M 2,0 0,2 2,4 H 4 L 2,2 4,0 Z" fill="#b7d974" />
-            <path d="M 6,4 8,2 6,0 4,2 Z" fill="#5da75d" />
-            <path d="M 8,4 10,2 8,0 h 2 l 2,2 -2,2 z" fill="#b7d974" />
-        </svg>
+        <svg><use href="#both-win" /></svg>
         <nobr>1 - 2</nobr>
     </div>
     <div>I graduated with honours from highschool and made the dean's list each year in college.</div>
@@ -34,10 +45,7 @@
 <div class="comparison">
     <div>Kale is an excellent source of antioxidants, vitamins C and K, and beta-carotene.</div>
     <div>
-        <svg viewBox="0 0 12 4" style="width:4.5rem; height:1.5rem;">
-            <path d="M 2,0 0,2 2,4 H 4 L 2,2 4,0 Z" fill="#b7d974" />
-            <path d="M 6,4 8,2 6,0 4,2 Z" fill="#5da75d" />
-        </svg>
+        <svg><use href="#left-win" /></svg>
         <nobr>2 - 2</nobr>
     </div>
     <div>I don't want to be eaten; that would be cannibalism.</div>
