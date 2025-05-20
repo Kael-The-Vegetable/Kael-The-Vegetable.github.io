@@ -1,0 +1,14 @@
+.codeBlock {
+	display: grid;
+	grid-template-columns: 5ch 1fr; /* fixed width | fills remaining */
+	width: fit-content; margin: 0 auto;
+	padding: 1.5rem;
+	border: 2px solid #32495f;
+	border-radius: 1rem;
+	background: #070c1d;
+}
+.codeBlock .line { border-right: 2px solid #32495f; color: #446374; }
+.codeBlock .comment { color: #81afb5; }
+.codeBlock .code { padding-left: 2ch; color: #5da75d; }
+.codeBlock .variable { color: #b7d974; }
+.codeBlock .string { color: #e3f5f1; }

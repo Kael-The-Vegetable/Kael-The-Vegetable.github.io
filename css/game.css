@@ -1,0 +1,42 @@
+.game > svg {
+	display: block;
+	width: 100%;
+	height: auto;
+	min-height: 6rem;
+}
+.game-start {
+	display: block; width: fit-content; margin: 0 auto; /* center horizontally */
+	padding: 0.5rem 1.5rem;
+	border: 3px solid;
+	border-color: #b7d974;
+	border-radius: 9000px; /* pill-shaped ends */
+	font-family: inherit;
+	font-size: 1.3rem;
+	font-weight: 600;
+	white-space: nowrap;
+	background: #1f394d;
+	color: #e3f5f1;
+	text-shadow: 2px 3px 0 #1f394d;
+	animation: pulse 2s infinite alternate;
+}
+@keyframes pulse {
+    0% { border-color: #1f394d; }
+    100% { border-color: #b7d974; }
+}
+.game-category {
+	color: #81afb5;
+	text-align: center;
+}
+.game-title {
+	margin-top: 0.5rem;
+	font-size: 1.3rem;
+	font-weight: 500;
+	color: #e3f5f1;
+	text-align: center;
+}
+.game-lines {
+	font-size: 3rem;
+	font-weight: 700;
+	color: #e3f5f1;
+	text-align: center;
+}

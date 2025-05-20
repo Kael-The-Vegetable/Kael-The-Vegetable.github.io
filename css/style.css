@@ -94,22 +94,6 @@ a:hover, a:active, a:focus { color: #eee98a; }
 	color: #e3f5f1;
 }
 
-/*** CODE ***/
-.codeBlock {
-	display: grid;
-	grid-template-columns: 5ch 1fr; /* fixed width | fills remaining */
-	width: fit-content; margin: 0 auto;
-	padding: 1.5rem;
-	border: 2px solid #32495f;
-	border-radius: 1rem;
-	background: #070c1d;
-}
-.codeBlock .line { border-right: 2px solid #32495f; color: #446374; }
-.codeBlock .comment { color: #81afb5; }
-.codeBlock .code { padding-left: 2ch; color: #5da75d; }
-.codeBlock .variable { color: #b7d974; }
-.codeBlock .string { color: #e3f5f1; }
-
 /*** TITLES ***/
 h1, h2 {
 	text-align: center;
@@ -126,86 +110,6 @@ h1, h2 {
 	font-size: 0.6rem;
 	font-weight: 500;
 	color: #446374;
-}
-
-/*** GAME ***/
-.game > svg {
-	display: block;
-	width: 100%;
-	height: auto;
-	min-height: 6rem;
-}
-.game-start {
-	display: block; width: fit-content; margin: 0 auto; /* center horizontally */
-	padding: 0.5rem 1.5rem;
-	border: 3px solid;
-	border-color: #b7d974;
-	border-radius: 9000px; /* pill-shaped ends */
-	font-family: inherit;
-	font-size: 1.3rem;
-	font-weight: 600;
-	white-space: nowrap;
-	background: #1f394d;
-	color: #e3f5f1;
-	text-shadow: 2px 3px 0 #1f394d;
-	animation: pulse 2s infinite alternate;
-}
-@keyframes pulse {
-    0% { border-color: #1f394d; }
-    100% { border-color: #b7d974; }
-}
-.game-category {
-	color: #81afb5;
-	text-align: center;
-}
-.game-title {
-	margin-top: 0.5rem;
-	font-size: 1.3rem;
-	font-weight: 500;
-	color: #e3f5f1;
-	text-align: center;
-}
-.game-lines {
-	font-size: 3rem;
-	font-weight: 700;
-	color: #e3f5f1;
-	text-align: center;
-}
-
-
-/*** IMAGES ***/
-.scrolling-kale {
-	border: 2px solid #32495f;
-	border-radius: 1rem;
-	background-image: url('../media/kale.gif');
-	background-size: cover;
-	background-position: center;
-	background-attachment: fixed; /* makes image not scroll with content */
-	box-shadow: inset 0px 0.4rem 1px #070c1d88;
-}
-
-/*** COMPARISON ***/
-.comparison {
-	display: grid;
-	grid-template-columns: 1fr 10ch 1fr;
-	gap: 0.5rem;
-	padding: 1.5rem;
-	border: 2px solid #32495f;
-	border-radius: 1rem;
-	background: #070c1d;
-}
-.comparison > div { text-align: center; }
-.comparison > div:nth-child(2) {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	gap: 0.5rem;
-}
-.comparison > div > nobr {
-	font-size: 1.2rem;
-	font-weight: 600;
-	color: #81afb5;
 }
 
 @media (max-width: 1400px) {

@@ -1,0 +1,34 @@
+/*** IMAGES ***/
+.scrolling-kale {
+	border: 2px solid #32495f;
+	border-radius: 1rem;
+	background-image: url('../media/kale.gif');
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed; /* makes image not scroll with content */
+	box-shadow: inset 0px 0.4rem 1px #070c1d88;
+}
+
+/*** COMPARISON ***/
+.comparison {
+	display: grid;
+	grid-template-columns: 1fr 10ch 1fr;
+	gap: 0.5rem;
+	padding: 1.5rem;
+	border: 2px solid #32495f;
+	border-radius: 1rem;
+	background: #070c1d;
+}
+.comparison > div { text-align: center; }
+.comparison > div:nth-child(2) {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 0.5rem;
+}
+.comparison > div > nobr {
+	font-size: 1.2rem;
+	font-weight: 600;
+	color: #81afb5;
+}
