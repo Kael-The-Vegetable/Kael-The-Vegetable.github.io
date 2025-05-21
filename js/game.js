@@ -1,4 +1,5 @@
 import { Projects } from './projects.js';
+import { Animation } from './animation.js';
 
 // wait for DOM to load fully
 document.addEventListener(`DOMContentLoaded`, function() {
@@ -16,7 +17,6 @@ let gameObj;
 function initializeGame(ev) {
     gameObj?.stop();
     gameObj = new Game();
-    console.log(ev.originalTarget);
     gameObj.start();
 }
 
@@ -25,15 +25,27 @@ class Game {
     frameID;
     #prevTimeStamp; // useful to get delta
 
-    #linesUpdateCurrent = 0; // current ms until update
-    #linesUpdateMS = 500; // amount of ms until lines update again
-    #linesPerMs = 80 / 1000; // lines / second / 1000
-    #lineRange = [900, 1500]; // min and max lines per project
+    #lineAnim = new Animation(250, // line update speed
+        () => { if (this.linesElement) this.linesElement.innerText = Math.floor(this.lines); },
+        () => { if (this.linesElement) this.linesElement.innerText = "42"; }
+    );
+    #linesPerMs = 500 / 1000; // (lines / second) / 1000
+    #lineRange = [10000, 15000]; // min and max lines per project
+
+    #armAnim = new Animation(125, // arm speed
+        () => { this.setActiveArm(this.arms[(this.getActiveArm() % 2) + 1]); }, // flip flop
+        () => { this.setActiveArm(); } // reset
+    )
 
     constructor() {
         this.juiceButton = document.getElementById(`juicer`);
         this.linesElement = document.getElementById(`lines`);
         this.projectElement = document.getElementById(`title`);
+        this.arms = [ // no coding, anim 1, anim 2
+            document.getElementById(`arm-resting`), 
+            document.getElementById(`arm-up`), 
+            document.getElementById(`arm-down`)
+        ];
 
         this.lines = 0;
         this.linesToCompletion = 0;
@@ -56,10 +68,8 @@ class Game {
                 this.lines = 0;
             }
 
-            this.#linesUpdateCurrent += delta;
-            if (this.#linesUpdateCurrent >= this.#linesUpdateMS) {
-                this.updateUI();
-            }
+            this.#armAnim.attemptUpdate(delta);
+            this.#lineAnim.attemptUpdate(delta);
 
             this.#prevTimeStamp = timestamp;
             this.frameID = requestAnimationFrame(update);
@@ -72,14 +82,28 @@ class Game {
 
     stop() {
         if (this.frameID) { cancelAnimationFrame(this.frameID); }
+        this.#lineAnim.stop();
+        this.#armAnim.stop();
     }
 
-    updateUI() {
-        this.#linesUpdateCurrent = 0;
-        if (this.linesElement) {
-            this.linesElement.innerText = Math.floor(this.lines);
+    //#region Arm Methods
+    // method called to set an active arm and set other arms to inactive.
+    setActiveArm(arm = this.arms[0]) {
+        for (let i = 0; i < this.arms.length; i++) {
+            const existingArm = this.arms[i];
+            existingArm.style.opacity = (existingArm === arm ? '1' : '0');
         }
     }
+    // method to retrieve currently active arm.
+    getActiveArm() {
+        for (let i = 0; i < this.arms.length; i++) {
+            if (this.arms[i].style.opacity == '1') {
+                return i;
+            }
+        }
+        return -1;
+    }
+    //#endregion
 
     // method called when the current project has been completed and a new one needs to be selected.
     newProject() {
@@ -92,6 +116,6 @@ class Game {
         if (this.projectElement) {
             this.projectElement.innerText = this.projectName;
         }
-        this.updateUI();
+        
     }
 }
