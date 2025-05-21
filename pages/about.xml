@@ -1,4 +1,4 @@
-<svg aria-hidden="true" id="svg-defs">
+<svg aria-hidden="true" style="display:none;">
     <defs>
         <symbol id="right-win" viewBox="0 0 12 4">
             <path d="M 6,4 8,2 6,0 4,2 Z" fill="#5da75d"></path>
