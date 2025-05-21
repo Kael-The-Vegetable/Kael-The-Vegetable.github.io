@@ -16,6 +16,11 @@ export class Animation {
      * @param {number} delta time since last update
      */
     attemptUpdate(delta) {
+        if (this.delay <= 0) { // guard clause
+            this.anim();
+            return;
+        } 
+        
         this.#currentDelay += delta;
         if (this.#currentDelay >= this.delay) {
             this.#currentDelay %= this.delay;

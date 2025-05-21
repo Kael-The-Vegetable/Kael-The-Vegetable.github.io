@@ -14,7 +14,7 @@ document.addEventListener(`DOMContentLoaded`, function() {
 let gameObj;
 
 // called when start-game button is pressed.
-function initializeGame(ev) {
+function initializeGame() {
     gameObj?.stop();
     gameObj = new Game();
     gameObj.start();
@@ -35,7 +35,13 @@ class Game {
     #armAnim = new Animation(125, // arm speed
         () => { this.setActiveArm(this.arms[(this.getActiveArm() % 2) + 1]); }, // flip flop
         () => { this.setActiveArm(); } // reset
-    )
+    );
+
+    #juiceMult = 2;
+    #juiceAnim = new Animation(0, // happens constantly
+        () => {  }, // check if active?
+        () => {  }
+    );
 
     constructor() {
         this.juiceButton = document.getElementById(`juicer`);
@@ -50,8 +56,9 @@ class Game {
         this.lines = 0;
         this.linesToCompletion = 0;
         this.projectName = "";
+        this.juiceActive = false;
     }
-
+    //#region Start/Stop methods
     start() {
         const update = (timestamp) => {
             if (!this.#prevTimeStamp) { // if there is no existing previous timestamp
@@ -59,7 +66,7 @@ class Game {
             }
 
             // increase lines by value
-            const delta = timestamp - this.#prevTimeStamp;
+            const delta = (timestamp - this.#prevTimeStamp) * (this.juiceActive ? this.#juiceMult : 1);
             this.lines += delta * this.#linesPerMs;
 
             if (this.lines >= this.linesToCompletion) {
@@ -70,6 +77,7 @@ class Game {
 
             this.#armAnim.attemptUpdate(delta);
             this.#lineAnim.attemptUpdate(delta);
+            this.#juiceAnim.attemptUpdate(delta);
 
             this.#prevTimeStamp = timestamp;
             this.frameID = requestAnimationFrame(update);
@@ -85,6 +93,7 @@ class Game {
         this.#lineAnim.stop();
         this.#armAnim.stop();
     }
+    //#endregion
 
     //#region Arm Methods
     // method called to set an active arm and set other arms to inactive.
@@ -104,6 +113,10 @@ class Game {
         return -1;
     }
     //#endregion
+
+    juiceClicked() {
+
+    }
 
     // method called when the current project has been completed and a new one needs to be selected.
     newProject() {
