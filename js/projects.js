@@ -25,8 +25,8 @@ export class Projects {
     ]; // 25 sequel tags
     // total of 3.125 M combinations
 
-    static #projectNamesMade = new Map();
-    static #totalAttempts = 50;
+    static #projectNamesUsed = ;
+    static #totalAttempts = 100;
 
     static newProject(addingToMap = true) {
         const title = []; // 0 = adjective, 1 = theme, 2 = genre, 3 = sequel tag
