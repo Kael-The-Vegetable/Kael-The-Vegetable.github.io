@@ -52,6 +52,7 @@ function loadContent(page) {
         });
 }
 
+// check if the url provided is correct (with the # after the index.htm)
 function checkURL() {
     if (location.hash) {
         const page = location.hash.replace('#', '');
