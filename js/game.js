@@ -14,14 +14,16 @@ document.addEventListener(`DOMContentLoaded`, function() {
 let gameObj;
 
 // called when start-game button is pressed.
-function initializeGame() {
+function initializeGame(ev) {
     gameObj?.stop();
     gameObj = new Game();
     gameObj.start();
+    ev.originalTarget.style.display = 'none';
 }
 
 // class to encapsulate the game running
 class Game {
+    
     frameID;
     #prevTimeStamp; // useful to get delta
 
@@ -42,7 +44,7 @@ class Game {
         () => {  }, // check if active?
         () => {  }
     );
-
+    
     constructor() {
         this.juiceButton = document.getElementById(`juicer`);
         this.linesElement = document.getElementById(`lines`);
@@ -53,11 +55,15 @@ class Game {
             document.getElementById(`arm-down`)
         ];
 
+        this.juiceButton.style.display = 'block';
+        this.juiceButton.addEventListener(`click`, this.juiceClicked);
+
         this.lines = 0;
         this.linesToCompletion = 0;
         this.projectName = "";
         this.juiceActive = false;
     }
+
     //#region Start/Stop methods
     start() {
         const update = (timestamp) => {
@@ -90,6 +96,9 @@ class Game {
 
     stop() {
         if (this.frameID) { cancelAnimationFrame(this.frameID); }
+
+        this.juiceButton.removeEventListener(`click`, this.juiceClicked);
+        
         this.#lineAnim.stop();
         this.#armAnim.stop();
     }
@@ -115,16 +124,16 @@ class Game {
     //#endregion
 
     juiceClicked() {
-
+        
     }
 
     // method called when the current project has been completed and a new one needs to be selected.
     newProject() {
         if (this.lines != 0) {
-            console.log("Completed [" + this.projectName + "] in " + this.lines + " lines!");
+            console.log("Completed [" + this.projectName + "] in " + this.lines + " lines! Only [" + ((1 - (Projects.usedNames / Projects.TOTAL_COMBOS)) * 100).toString() + "] Left to use.");
         }
 
-        this.projectName = Projects.newProject(false);
+        this.projectName = Projects.newProject();
         this.linesToCompletion = Math.round(Math.random() * (this.#lineRange[1] - this.#lineRange[0]) + this.#lineRange[0]);
         if (this.projectElement) {
             this.projectElement.innerText = this.projectName;

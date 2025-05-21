@@ -1,76 +1,90 @@
-// Helper functions (can be shared or duplicated depending on structure)
-function randListVal(list = new Array()) {
-    if (list.length == 0) return null;
-    return list[randID(list.length)];
-}
-function randID(length = 0) {
-    if (length == 0) return -1;
-    return Math.floor(Math.random() * length);
-}
-
 // class to encapsulate the different possible game project titles and lines of code needed to complete
 // TODO: go through adjectives, themes, genres, and sequels for any potential wrong wordings and rewrite.
 export class Projects {
     static #adjective = [
-      "Ancient ", "Angry ", "Atomic ", "Awkward ", "Bizarre ", "Blazing ", "Bloody ", "Broken ", "Brutal ", "Clever ", "Cold ", "Cosmic ", "Cursed ", "Dark ", "Deadly ", "Deranged ", "Doomed ", "Dusty ", "Electric ", "Enraged ", "Eternal ", "Freaky ", "Frosty ", "Galactic ", "Grumpy ", "Haunted ", "Heroic ", "Hollow ", "Hot ", "Ironic ", "Juicy ", "Lonely ", "Lucky ", "Mighty ", "Nuclear ", "Rusty ", "Salty ", "Savage ", "Sassy ", "Vicious "
+      "Ancient ", "Angry ", "Atomic ", "Awkward ", "Bizarre ", "Blazing ", "Bloody ", "Broken ", "Brutal ","Chaotic ", "Clever ", "Cold ", "Cosmic ", "Creepy ", "Cursed ", "Dark ", "Deadly ", "Deranged ", "Doomed ", "Draconic ", "Dusty ", "Electric ", "Enraged ", "Eternal ", "Filthy ", "Freaky ", "Frosty ", "Galactic ", "Greedy ", "Grumpy ", "Haunted ", "Heroic ", "Hollow ", "Hot ", "Ironic ", "Juicy ", "Lonely ", "Lucky ", "Lunar ", "Mighty ", "Nuclear ", "Radiant ", "Rusty ", "Salty ", "Savage ", "Sassy ", "Slimy ", "Spooky ", "Vicious "
     ]; // 50 adjectives
     static #theme = [ 
-      "Academic ", "Alien ", "Apocalyptic ", "Arctic ", "Baking ", "Castle ", "Caveman ", "City ", "Cyberpunk ", "Deep Sea ", "Desert ", "Dungeoning ", "Dystopia ", "Farming ", "Forest ", "Galactic ", "Garage ", "Graveyard ", "Hacking ", "Haunted ", "Hellish ", "High School ", "Hospital ", "Iceberg ", "Island ", "Jungle ", "Kingdom ", "Laboratory ", "Library ", "Mars ", "Medieval ", "Metro ", "Mining ", "Moon ", "Museum ", "Office ", "Outer Space ", "Pirating ", "Prison ", "Robotics ", "Ruins ", "Space Station ", "Suburb ", "Swamp ", "Temple ", "Time Traveling ", "Toy Store ", "Train ", "Underworld ", "Village ", "Wasteland ", "Wild West "
+      "Academic ", "Alien ", "Apocalypse ", "Arctic ", "Baking ", "Castle ", "Caveman ", "City ", "Cyberpunk ", "Deep Sea ", "Desert ", "Dungeoning ", "Dystopia ", "Farming ", "Forest ", "Galactic ", "Garage ", "Graveyard ", "Hacking ", "Hell ", "High School ", "Hospital ", "Iceberg ", "Island ", "Jungle ", "Kingdom ", "Laboratory ", "Library ", "Mars ", "Medieval ", "Metro ", "Mining ", "Moon ", "Museum ", "Office ", "Outer Space ", "Prison ", "Robotic ", "Ruins ", "Space Station ", "Suburb ", "Swamp ", "Temple ", "Time Traveling ", "Toy Store ", "Train ", "Underworld ", "Village ", "Wasteland ", "Wild West "
     ]; // 50 themes
     static #genre = [
-      "Adventure", "Arena", "Auto Clash", "Battle Royale", "Brawl", "Builder", "Card Clash", "Clicker", "Combat", "Cooking", "Dates", "Deckbuilder", "Dungeons", "Escape Room", "Farming", "Fighting", "Fishing", "Flight", "FPS", "God", "Hack-and-Slash", "Horror", "Idle", "Infiltration", "Interactive", "JRPG", "Jumps", "Life", "Management", "Match-3", "Mazes", "Metroidvania", "MMO", "MOBA", "Music", "Mysteries", "Partying", "Point & Click", "Race", "Rhythm", "Roguelike",  "Sandbox", "Shooter", "Simulator", "Strategy", "Synthcraft", "Tinkerlabs", "Tower", "World"
+      "Adventure", "Arena", "Auto Clash", "Battle Royale", "Brawl", "Builder", "Card Clash", "Clicker", "Combat", "Cooking", "Dates", "Deckbuilder", "Dungeons", "Escape Room", "Farming", "Fighting", "Fishing", "Flight", "FPS", "God", "Hack-and-Slash", "Horror", "Idle", "Infiltration", "Interactive", "JRPG", "Jumps", "Life", "Management", "Mania", "Match-3", "Mazes", "MMO", "MOBA", "Music", "Mysteries", "Partying", "Point & Click", "Race", "Rhythm", "Roguelike",  "Sandbox", "Shooter", "Simulator", "Strategy", "Synthcraft", "Tinkerlabs", "Tower", "World"
     ]; // 50 genres
     static #sequelTag = [
-      ": Aftermath", ": Armageddon", ": Back in Action", ": Code Orange", ": Director's Cut", ": Dominion", ": Extended Edition", ": Final Chapter", ": Intercepted", ": Last Stand", ": Origins", ": Prologue", ": Rebirth", ": Reloaded", ": Remastered?", ": Resurrection", ": Returns", ": Redux", ": Revolution", ": The Awakening", ": The Fall", ": The Good One", ": The Lost Chapters", ": The Reckoning", ": X"
-    ]; // 25 sequel tags
-    // total of 3.125 M combinations
+      "", ": Aftermath", ": Armageddon", ": Back in Action", ": Code Orange", ": Director's Cut", ": Dominion", ": Extended Edition", ": Final Chapter", ": Intercepted", ": Last Stand", ": Origins", ": Prologue", ": Rebirth", ": Reloaded", ": Remastered?", ": Resurrection", ": Returns", ": Redux", ": Revolution", ": The Awakening", ": The Fall", ": The Good One", ": The Lost Chapters", ": The Reckoning", ": X"
+    ]; // 26 sequel tags including 1 empty
 
-    static #projectNamesUsed = ;
-    static #totalAttempts = 100;
+    // Constants for internal calculations
+    static #ADJECTIVE_LEN = Projects.#adjective.length;
+    static #THEME_LEN = Projects.#theme.length;
+    static #GENRE_LEN = Projects.#genre.length;
+    static #SEQUEL_LEN = Projects.#sequelTag.length;
 
-    static newProject(addingToMap = true) {
-        const title = []; // 0 = adjective, 1 = theme, 2 = genre, 3 = sequel tag
-        title.push(randListVal(this.#adjective));
-        title.push(randListVal(this.#theme));
-        title.push(randListVal(this.#genre));
+    static TOTAL_COMBOS = Projects.#ADJECTIVE_LEN * Projects.#THEME_LEN * Projects.#GENRE_LEN * (Projects.#SEQUEL_LEN);
+    static TOTAL_NO_SEQUELS = Projects.#ADJECTIVE_LEN * Projects.#THEME_LEN * Projects.#GENRE_LEN;
+    static #MAX_ATTEMPTS = 100;
 
-        if (Math.random() >= 0.5) { // invoke 50% chance of sequel no matter what
-            title.push(randListVal(this.#sequelTag));
+    static #projectNames = new Uint8Array(Math.ceil(Projects.TOTAL_COMBOS * 0.125));
+    static usedNames = 0;
+
+    static newProject(checkForUnique = true) {
+        let index;
+        let totalUsed;
+        let attempts = 0;
+
+        do {
+            totalUsed = (Math.random() >= 0.5) ? Projects.TOTAL_COMBOS : Projects.TOTAL_NO_SEQUELS;
+            index = Math.floor(Math.random() * totalUsed);
+            attempts++;
+        } while (
+            checkForUnique &&
+            attempts <= Projects.#MAX_ATTEMPTS &&
+            Projects.#isUsed(index)
+        );
+        
+        if (checkForUnique && !Projects.#isUsed(index)) {
+            Projects.usedNames++;
+            Projects.#markUsed(index);
         }
 
-        let result = title.join('');
-
-        if (addingToMap) {
-            let attempts = 0;
-            while(attempts < this.#totalAttempts && this.#projectNamesMade.has(title)) {
-                if (title.length > 3) { // has sequel
-                    switch (randID(title.length)) {
-                        case 0: // new adjective
-                            title[0] = randListVal(this.#adjective);
-                            break;
-                        case 1: // new theme
-                            title[1] = randListVal(this.#theme);
-                            break;
-                        case 2: // new genre
-                            title[2] = randListVal(this.#genre);
-                            break;
-                        case 3: // new sequel tag
-                            title[3] = randListVal(this.#sequelTag);
-                            break;
-                    }
-                } else {
-                    title.push(randListVal(this.#sequelTag));
-                }
-                attempts++;
-            }
-
-            if (attempts > 0) { result = title.join(''); }
-
-            this.#projectNamesMade.set(title, result);
-        }
-
-        return result;
+        return Projects.#decodeIndex(index);
     }
 
-    static clearExistingProjects = () => this.#projectNamesMade.clear();
+    static #isUsed(index) {
+        const byte = index >> 3;
+        const bit = index & 7;
+        return (Projects.#projectNames[byte] & (1 << bit)) !== 0;
+    }
+    static #markUsed(index) {
+        const byte = index >> 3;
+        const bit = index & 7;
+        Projects.#projectNames[byte] |= (1 << bit);
+    }
+    static #decodeIndex(index) {
+        let sequelIndex = -1;
+
+        if (index >= Projects.TOTAL_NO_SEQUELS) {
+            sequelIndex = index % Projects.#SEQUEL_LEN;
+            index = Math.floor(index / Projects.#SEQUEL_LEN);
+        }
+
+        const genreIndex = index % Projects.#GENRE_LEN;
+        index = Math.floor(index / Projects.#GENRE_LEN);
+
+        const themeIndex = index % Projects.#THEME_LEN;
+        index = Math.floor(index / Projects.#THEME_LEN);
+
+        const adjectiveIndex = index;
+
+        return (
+            Projects.#adjective[adjectiveIndex] +
+            Projects.#theme[themeIndex] +
+            Projects.#genre[genreIndex] +
+            (sequelIndex !== -1 ? Projects.#sequelTag[sequelIndex] : "")
+        );
+    }
+    static clearUsed() {
+        Projects.#projectNames.fill(0);
+        Projects.usedNames = 0;
+    }
 }
