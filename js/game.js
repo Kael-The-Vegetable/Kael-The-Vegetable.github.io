@@ -24,6 +24,9 @@ function initializeGame(ev) {
 class Game {
     frameID;
     #prevTimeStamp; // useful to get delta
+
+    #linesUpdateCurrent = 0; // current ms until update
+    #linesUpdateMS = 500; // amount of ms until lines update again
     #linesPerMs = 80 / 1000; // lines / second / 1000
     #lineRange = [900, 1500]; // min and max lines per project
 
@@ -46,14 +49,18 @@ class Game {
             // increase lines by value
             const delta = timestamp - this.#prevTimeStamp;
             this.lines += delta * this.#linesPerMs;
-            
+
             if (this.lines >= this.linesToCompletion) {
                 this.lines = this.linesToCompletion;
                 this.newProject();
                 this.lines = 0;
             }
 
-            this.updateUI();
+            this.#linesUpdateCurrent += delta;
+            if (this.#linesUpdateCurrent >= this.#linesUpdateMS) {
+                this.updateUI();
+            }
+
             this.#prevTimeStamp = timestamp;
             this.frameID = requestAnimationFrame(update);
         }; // delegate to occur each frame
@@ -68,6 +75,7 @@ class Game {
     }
 
     updateUI() {
+        this.#linesUpdateCurrent = 0;
         if (this.linesElement) {
             this.linesElement.innerText = Math.floor(this.lines);
         }
@@ -84,5 +92,6 @@ class Game {
         if (this.projectElement) {
             this.projectElement.innerText = this.projectName;
         }
+        this.updateUI();
     }
 }
