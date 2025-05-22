@@ -6,10 +6,11 @@ export class Animation {
      * @param {function} animFunc 
      * @param {function} stopFunc 
      */
-    constructor(msTillCall, animFunc, stopFunc) {
+    constructor(msTillCall, animFunc, stopFunc, constFunc = undefined) {
         this.delay = msTillCall;
         this.anim = animFunc;
         this.stop = stopFunc;
+        this.always = constFunc;
     }
 
     /**
@@ -22,6 +23,11 @@ export class Animation {
         } 
         
         this.#currentDelay += delta;
+        
+        if (this.always) {
+            this.always(this.#currentDelay);
+        }
+
         if (this.#currentDelay >= this.delay) {
             this.#currentDelay %= this.delay;
             this.anim();

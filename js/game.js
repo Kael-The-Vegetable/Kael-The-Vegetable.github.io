@@ -39,16 +39,39 @@ class Game {
         () => { this.setActiveArm(); } // reset
     );
 
-    #juiceMult = 2;
-    #juiceAnim = new Animation(0, // happens constantly
-        () => {  }, // check if active?
-        () => {  }
+
+    #juiceAnim = new Animation(10000,
+        () => {
+            if (this.juiceActive) {
+                this.juiceButton.setAttribute(`data-active`, 'false');
+                this.juiceActive = false;
+            } else {
+                this.juiceButton.setAttribute(`data-active`, 'true');
+            }
+        },
+        () => {
+            this.juiceButton.setAttribute(`data-active`, 'false');
+            this.juiceButton.style.display = 'none';
+        },
+        (currentDelay) => {
+            if (this.juiceButton.getAttribute(`data-active`) == 'true') {
+                return;
+            }
+
+            if (currentDelay > 10000) {
+                currentDelay = 10000;
+            }
+            const percentage = this.juiceActive ? 100 - currentDelay * 0.01 : currentDelay * 0.01;
+            document.documentElement.style.setProperty(`--juice-level`, percentage + '%');
+        }
     );
+    #juiceMult = 2;
     
     constructor() {
         this.juiceButton = document.getElementById(`juicer`);
         this.linesElement = document.getElementById(`lines`);
         this.projectElement = document.getElementById(`title`);
+        this.progressElement = document.getElementById(`progress`);
         this.arms = [ // no coding, anim 1, anim 2
             document.getElementById(`arm-resting`), 
             document.getElementById(`arm-up`), 
@@ -57,7 +80,7 @@ class Game {
 
         this.juiceButton.style.display = 'block';
         this.juiceButton.addEventListener(`click`, this.juiceClicked);
-
+        
         this.lines = 0;
         this.linesToCompletion = 0;
         this.projectName = "";
@@ -72,8 +95,11 @@ class Game {
             }
 
             // increase lines by value
-            const delta = (timestamp - this.#prevTimeStamp) * (this.juiceActive ? this.#juiceMult : 1);
-            this.lines += delta * this.#linesPerMs;
+            const delta = (timestamp - this.#prevTimeStamp) 
+            const scaledDelta = delta * (this.juiceActive ? this.#juiceMult : 1);
+            this.lines += scaledDelta * this.#linesPerMs;
+
+            this.progressElement.style.width = (this.lines / this.linesToCompletion) * 100 + '%';
 
             if (this.lines >= this.linesToCompletion) {
                 this.lines = this.linesToCompletion;
@@ -81,9 +107,11 @@ class Game {
                 this.lines = 0;
             }
 
-            this.#armAnim.attemptUpdate(delta);
-            this.#lineAnim.attemptUpdate(delta);
-            this.#juiceAnim.attemptUpdate(delta);
+            this.#armAnim.attemptUpdate(scaledDelta);
+            this.#lineAnim.attemptUpdate(scaledDelta);
+            if (this.juiceButton.getAttribute(`data-active`) == 'false') {
+                this.#juiceAnim.attemptUpdate(delta); // uses realtime
+            }
 
             this.#prevTimeStamp = timestamp;
             this.frameID = requestAnimationFrame(update);
@@ -101,6 +129,7 @@ class Game {
         
         this.#lineAnim.stop();
         this.#armAnim.stop();
+        this.#juiceAnim.stop();
     }
     //#endregion
 
@@ -123,8 +152,11 @@ class Game {
     }
     //#endregion
 
-    juiceClicked() {
-        
+    juiceClicked(ev) {
+        if (ev.originalTarget.getAttribute(`data-active`) == 'true') {
+            console.log(this.juiceActive);
+            ev.originalTarget.setAttribute(`data-active`, 'false');
+        }
     }
 
     // method called when the current project has been completed and a new one needs to be selected.

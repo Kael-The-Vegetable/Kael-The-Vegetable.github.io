@@ -1,3 +1,7 @@
+:root {
+	--juice-level: 0%;
+}
+
 .game > svg {
 	display: block;
 	width: 100%;
@@ -48,7 +52,7 @@
 	font-size: 1.3rem;
 	font-weight: 600;
 	white-space: nowrap;
-	background: linear-gradient(to right, #39755c 75%, #1f394d 0); /* (!) changed in js */
+	background: linear-gradient(to right, #39755c var(--juice-level), #1f394d 0); /* (!) changed in js */
 	color: #070c1d;
 }
 .game-juicer[data-active="true"] {
