@@ -1,5 +1,6 @@
 import { Projects } from './projects.js';
 import { Animation } from './animation.js';
+import { NumberRange } from './utility.js';
 
 // wait for DOM to load fully
 document.addEventListener(`DOMContentLoaded`, function() {
@@ -21,26 +22,34 @@ function initializeGame(ev) {
     ev.originalTarget.style.display = 'none';
 }
 
+const GAME_SPEED = 250; // smallest unit of time used for delays. 125ms
+
 // class to encapsulate the game running
 class Game {
     
     frameID;
+
+    //#region Private Variables
+
     #prevTimeStamp; // useful to get delta
 
-    #lineAnim = new Animation(250, // line update speed
+    // Lines
+    #lineAnim = new Animation(GAME_SPEED, // line update speed
         () => { if (this.linesElement) this.linesElement.innerText = Math.floor(this.lines); },
         () => { if (this.linesElement) this.linesElement.innerText = "42"; }
     );
     #linesPerMs = 500 / 1000; // (lines / second) / 1000
-    #lineRange = [10000, 15000]; // min and max lines per project
+    #lineRange = new NumberRange(10000, 15000); // min and max lines per project
 
-    #armAnim = new Animation(125, // arm speed
+    // Arm
+    #armAnim = new Animation(GAME_SPEED, // arm speed
         () => { this.setActiveArm(this.arms[(this.getActiveArm() % 2) + 1]); }, // flip flop
         () => { this.setActiveArm(); } // reset
     );
 
-
-    #juiceAnim = new Animation(10000,
+    // Juice
+    #juiceTime = 40 * GAME_SPEED;
+    #juiceAnim = new Animation(this.#juiceTime,
         () => {
             if (this.juiceActive) {
                 this.juiceButton.setAttribute(`data-active`, 'false');
@@ -58,15 +67,34 @@ class Game {
                 return;
             }
 
-            if (currentDelay > 10000) {
-                currentDelay = 10000;
+            if (currentDelay > this.#juiceTime) {
+                currentDelay = this.#juiceTime;
             }
-            const percentage = this.juiceActive ? 100 - currentDelay * 0.01 : currentDelay * 0.01;
+            const percentage = this.juiceActive ? (100 - 100 * currentDelay / this.#juiceTime) : (100 * currentDelay / this.#juiceTime);
             document.documentElement.style.setProperty(`--juice-level`, percentage + '%');
         }
     );
-    #juiceMult = 2;
-    
+    #juiceMult = 4;
+
+    //#region Computer Lines
+    #monitorLRange = new NumberRange(30, 80);
+    #monitorLinesL;
+    #monitorSRange = new NumberRange(12, 45);
+    #monitorLinesS;
+
+    #monitorAnim = new Animation(3 * GAME_SPEED,
+        () => { // animate
+            this.#updateMonitorLengths(this.#monitorLinesL, this.#monitorLRange);
+            this.#updateMonitorLengths(this.#monitorLinesS, this.#monitorSRange);
+        },
+        () => { // what to do when needing to stop.
+            this.monitorLarge.style.opacity = '0';
+            this.monitorSmall.style.opacity = '0';
+        }
+    );
+    //#endregion
+    //#endregion
+
     constructor() {
         this.juiceButton = document.getElementById(`juicer`);
         this.linesElement = document.getElementById(`lines`);
@@ -78,10 +106,37 @@ class Game {
             document.getElementById(`arm-down`)
         ];
 
+        this.monitorLarge = document.getElementById(`monitor-large`);
+        this.monitorSmall = document.getElementById(`monitor-small`);
+
+        //#region Monitors
+        this.monitorLarge.style.opacity = '1';
+        this.monitorSmall.style.opacity = '1';
+        this.#monitorLinesL = Array.from(this.monitorLarge.children).map(child => ({
+            node: child,
+            length: 0,
+            path: child.getAttribute(`d`).slice(0, 10) // gather first 11 elements (not the last 2 for width)
+        })).reverse(); // bottom up
+        this.#monitorLinesS = Array.from(this.monitorSmall.children).map(child => ({
+            node: child,
+            length: 0,
+            path: child.getAttribute(`d`).slice(0, 10) // gather first 11 elements (not the last 2 for width)
+        })).reverse(); // bottom up
+
+        for (let i = 0; i < this.#monitorLinesL.length; i++) {
+            this.#monitorLinesL[i].node.setAttribute(`d`, this.#monitorLinesL[i].path + this.#monitorLinesL[i].length);
+        }
+        for (let i = 0; i < this.#monitorLinesS.length; i++) {
+            this.#monitorLinesS[i].node.setAttribute(`d`, this.#monitorLinesS[i].path + this.#monitorLinesS[i].length);
+        }
+        //#endregion
+
+        //#region Juice Button
         this.juiceButton.style.display = 'block';
         this.juiceClicked = this.juiceClicked.bind(this)
         this.juiceButton.addEventListener(`click`, this.juiceClicked);
-        
+        //#endregion
+
         this.lines = 0;
         this.linesToCompletion = 0;
         this.projectName = "";
@@ -110,6 +165,7 @@ class Game {
 
             this.#armAnim.attemptUpdate(scaledDelta);
             this.#lineAnim.attemptUpdate(scaledDelta);
+            this.#monitorAnim.attemptUpdate(scaledDelta);
             if (this.juiceButton.getAttribute(`data-active`) == 'false') {
                 this.#juiceAnim.attemptUpdate(scaledDelta); // juice button also runs faster.
             }
@@ -153,6 +209,19 @@ class Game {
     }
     //#endregion
 
+    //#region Monitor Helper Method
+    #updateMonitorLengths(monitorLines, range) {
+        for (let i = monitorLines.length - 1; i > 0; i--) {
+                const current = monitorLines[i];
+                current.length = monitorLines[i - 1].length;
+                current.node.setAttribute(`d`, current.path + current.length);
+            }
+        const newLineL = monitorLines[0];
+        newLineL.length = range.random();
+        newLineL.node.setAttribute(`d`, newLineL.path + newLineL.length);
+    }
+    //#endregion
+
     juiceClicked(ev) {
         if (ev.originalTarget.getAttribute(`data-active`) == 'true') {
             this.juiceActive = true;
@@ -163,7 +232,7 @@ class Game {
     // method called when the current project has been completed and a new one needs to be selected.
     newProject() {
         this.projectName = Projects.newProject();
-        this.linesToCompletion = Math.round(Math.random() * (this.#lineRange[1] - this.#lineRange[0]) + this.#lineRange[0]);
+        this.linesToCompletion = Math.round(this.#lineRange.random());
         if (this.projectElement) {
             this.projectElement.innerText = this.projectName;
         }
