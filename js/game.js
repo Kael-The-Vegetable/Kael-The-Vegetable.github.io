@@ -162,10 +162,6 @@ class Game {
 
     // method called when the current project has been completed and a new one needs to be selected.
     newProject() {
-        if (this.lines != 0) {
-            console.log("Completed [" + this.projectName + "] in " + this.lines + " lines! Only [" + ((1 - (Projects.usedNames / Projects.TOTAL_COMBOS)) * 100).toString() + "] Left to use.");
-        }
-
         this.projectName = Projects.newProject();
         this.linesToCompletion = Math.round(Math.random() * (this.#lineRange[1] - this.#lineRange[0]) + this.#lineRange[0]);
         if (this.projectElement) {

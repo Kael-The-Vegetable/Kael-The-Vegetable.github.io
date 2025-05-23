@@ -21,8 +21,11 @@ export class Projects {
     static #SEQUEL_LEN = Projects.#sequelTag.length;
 
     static TOTAL_COMBOS = Projects.#ADJECTIVE_LEN * Projects.#THEME_LEN * Projects.#GENRE_LEN * (Projects.#SEQUEL_LEN);
+    static #inverseTotal = 1 / this.TOTAL_COMBOS;
+
     static TOTAL_NO_SEQUELS = Projects.#ADJECTIVE_LEN * Projects.#THEME_LEN * Projects.#GENRE_LEN;
     static #MAX_ATTEMPTS = 100;
+    static #CLEAR_ABOVE_PERCENT = 0.75; // clear memory above this percentage
 
     static #projectNames = new Uint8Array(Math.ceil(Projects.TOTAL_COMBOS * 0.125));
     static usedNames = 0;
@@ -59,6 +62,9 @@ export class Projects {
         const byte = index >> 3;
         const bit = index & 7;
         Projects.#projectNames[byte] |= (1 << bit);
+        if (Projects.usedNames * Projects.#inverseTotal > Projects.#CLEAR_ABOVE_PERCENT) {
+            Projects.clearUsed();
+        }
     }
     static #decodeIndex(index) {
         let sequelIndex = -1;
