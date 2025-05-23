@@ -30,69 +30,67 @@ class Game {
     frameID;
 
     //#region Private Variables
+    #prevTimeStamp;
+    #linesPerMs = 500 / 1000;
+    
+    // Constants
+    #lineRange = new NumberRange(10000, 15000);
+    #juiceTime = 40 * GAME_SPEED;
+    #juiceMult = 4;
+    static #PATH_TRIM_LENGTH = 11;
 
-    #prevTimeStamp; // useful to get delta
+    // Monitor Line Ranges
+    #monitorLRange = new NumberRange(30, 80);
+    #monitorSRange = new NumberRange(12, 45);
+    #monitorLinesL;
+    #monitorLinesS;
 
-    // Lines
-    #lineAnim = new Animation(GAME_SPEED, // line update speed
+    //#region Animations
+    #lineAnim = new Animation(GAME_SPEED,
         () => { if (this.linesElement) this.linesElement.innerText = Math.floor(this.lines); },
         () => { if (this.linesElement) this.linesElement.innerText = "42"; }
     );
-    #linesPerMs = 500 / 1000; // (lines / second) / 1000
-    #lineRange = new NumberRange(10000, 15000); // min and max lines per project
 
-    // Arm
-    #armAnim = new Animation(GAME_SPEED, // arm speed
-        () => { this.setActiveArm(this.arms[(this.getActiveArm() % 2) + 1]); }, // flip flop
-        () => { this.setActiveArm(); } // reset
+    #armAnim = new Animation(GAME_SPEED,
+        () => { this.#setActiveArm(this.arms[(this.#getActiveArm() % 2) + 1]); },
+        () => { this.#setActiveArm(); }
     );
 
-    // Juice
-    #juiceTime = 40 * GAME_SPEED;
     #juiceAnim = new Animation(this.#juiceTime,
         () => {
             if (this.juiceActive) {
-                this.juiceButton.setAttribute(`data-active`, 'false');
+                this.juiceButton?.setAttribute(`data-active`, 'false');
                 this.juiceActive = false;
             } else {
-                this.juiceButton.setAttribute(`data-active`, 'true');
+                this.juiceButton?.setAttribute(`data-active`, 'true');
             }
         },
         () => {
-            this.juiceButton.setAttribute(`data-active`, 'false');
+            this.juiceButton?.setAttribute(`data-active`, 'false');
             this.juiceButton.style.display = 'none';
         },
         (currentDelay) => {
-            if (this.juiceButton.getAttribute(`data-active`) == 'true') {
-                return;
-            }
-
-            if (currentDelay > this.#juiceTime) {
-                currentDelay = this.#juiceTime;
-            }
-            const percentage = this.juiceActive ? (100 - 100 * currentDelay / this.#juiceTime) : (100 * currentDelay / this.#juiceTime);
+            if (this.juiceButton?.getAttribute(`data-active`) == 'true') return;
+            if (currentDelay > this.#juiceTime) currentDelay = this.#juiceTime;
+            const percentage = this.juiceActive ?
+                (100 - 100 * currentDelay / this.#juiceTime) :
+                (100 * currentDelay / this.#juiceTime);
             document.documentElement.style.setProperty(`--juice-level`, percentage + '%');
         }
     );
-    #juiceMult = 4;
-
-    //#region Computer Lines
-    #monitorLRange = new NumberRange(30, 80);
-    #monitorLinesL;
-    #monitorSRange = new NumberRange(12, 45);
-    #monitorLinesS;
 
     #monitorAnim = new Animation(3 * GAME_SPEED,
-        () => { // animate
+        () => {
             this.#updateMonitorLengths(this.#monitorLinesL, this.#monitorLRange);
             this.#updateMonitorLengths(this.#monitorLinesS, this.#monitorSRange);
         },
-        () => { // what to do when needing to stop.
+        () => {
             this.monitorLarge.style.opacity = '0';
             this.monitorSmall.style.opacity = '0';
         }
     );
     //#endregion
+
     //#endregion
 
     constructor() {
@@ -100,41 +98,42 @@ class Game {
         this.linesElement = document.getElementById(`lines`);
         this.projectElement = document.getElementById(`title`);
         this.progressElement = document.getElementById(`progress`);
-        this.arms = [ // no coding, anim 1, anim 2
-            document.getElementById(`arm-resting`), 
-            document.getElementById(`arm-up`), 
+        this.arms = [
+            document.getElementById(`arm-resting`),
+            document.getElementById(`arm-up`),
             document.getElementById(`arm-down`)
         ];
-
         this.monitorLarge = document.getElementById(`monitor-large`);
         this.monitorSmall = document.getElementById(`monitor-small`);
 
-        //#region Monitors
+
+        //#region Initialize Monitor Lines
         this.monitorLarge.style.opacity = '1';
         this.monitorSmall.style.opacity = '1';
-        this.#monitorLinesL = Array.from(this.monitorLarge.children).map(child => ({
-            node: child,
-            length: 0,
-            path: child.getAttribute(`d`).slice(0, 10) // gather first 11 elements (not the last 2 for width)
-        })).reverse(); // bottom up
-        this.#monitorLinesS = Array.from(this.monitorSmall.children).map(child => ({
-            node: child,
-            length: 0,
-            path: child.getAttribute(`d`).slice(0, 10) // gather first 11 elements (not the last 2 for width)
-        })).reverse(); // bottom up
 
-        for (let i = 0; i < this.#monitorLinesL.length; i++) {
-            this.#monitorLinesL[i].node.setAttribute(`d`, this.#monitorLinesL[i].path + this.#monitorLinesL[i].length);
+        const setupMonitorLines = (m) => {
+            return Array.from(m.children).map(child => ({
+                node: child,
+                length: 0,
+                path: child.getAttribute(`d`).slice(0, Game.#PATH_TRIM_LENGTH), // removing horizontal length
+                setLength(val) {
+                    this.length = val;
+                    this.node.setAttribute(`d`, this.path + this.length);
+                }
+            })).reverse();
         }
-        for (let i = 0; i < this.#monitorLinesS.length; i++) {
-            this.#monitorLinesS[i].node.setAttribute(`d`, this.#monitorLinesS[i].path + this.#monitorLinesS[i].length);
-        }
+
+        this.#monitorLinesL = setupMonitorLines(this.monitorLarge);
+        this.#monitorLinesS = setupMonitorLines(this.monitorSmall);
+        
+        [this.#monitorLinesL, this.#monitorLinesS]
+            .forEach((lines) => lines.forEach((line) => line.setLength(0)));
         //#endregion
 
-        //#region Juice Button
+        //#region Juice Button Setup
         this.juiceButton.style.display = 'block';
-        this.juiceClicked = this.juiceClicked.bind(this)
-        this.juiceButton.addEventListener(`click`, this.juiceClicked);
+        this.juiceClicked = this.juiceClicked.bind(this);
+        this.juiceButton?.addEventListener(`click`, this.juiceClicked);
         //#endregion
 
         this.lines = 0;
@@ -143,18 +142,15 @@ class Game {
         this.juiceActive = false;
     }
 
-    //#region Start/Stop methods
+    //#region Start/Stop Methods
     start() {
         const update = (timestamp) => {
-            if (!this.#prevTimeStamp) { // if there is no existing previous timestamp
-                this.#prevTimeStamp = timestamp; // set it here
-            }
+            if (!this.#prevTimeStamp) this.#prevTimeStamp = timestamp;
 
-            // increase lines by value
-            const delta = (timestamp - this.#prevTimeStamp) 
+            const delta = timestamp - this.#prevTimeStamp;
             const scaledDelta = delta * (this.juiceActive ? this.#juiceMult : 1);
-            this.lines += scaledDelta * this.#linesPerMs;
 
+            this.lines += scaledDelta * this.#linesPerMs;
             this.progressElement.style.width = (this.lines / this.linesToCompletion) * 100 + '%';
 
             if (this.lines >= this.linesToCompletion) {
@@ -167,75 +163,72 @@ class Game {
             this.#lineAnim.attemptUpdate(scaledDelta);
             this.#monitorAnim.attemptUpdate(scaledDelta);
             if (this.juiceButton.getAttribute(`data-active`) == 'false') {
-                this.#juiceAnim.attemptUpdate(scaledDelta); // juice button also runs faster.
+                this.#juiceAnim.attemptUpdate(scaledDelta);
             }
 
             this.#prevTimeStamp = timestamp;
             this.frameID = requestAnimationFrame(update);
         }; // delegate to occur each frame
         
-        this.newProject(); // Start a new Project.
-
+        this.newProject();
         this.frameID = requestAnimationFrame(update);
     }
 
     stop() {
-        if (this.frameID) { cancelAnimationFrame(this.frameID); }
+        if (this.frameID) cancelAnimationFrame(this.frameID);
 
         this.juiceButton.removeEventListener(`click`, this.juiceClicked);
-        
         this.#lineAnim.stop();
         this.#armAnim.stop();
         this.#juiceAnim.stop();
+        this.#monitorAnim.stop();
     }
     //#endregion
 
     //#region Arm Methods
     // method called to set an active arm and set other arms to inactive.
-    setActiveArm(arm = this.arms[0]) {
+    #setActiveArm(arm = this.arms[0]) {
         for (let i = 0; i < this.arms.length; i++) {
             const existingArm = this.arms[i];
             existingArm.style.opacity = (existingArm === arm ? '1' : '0');
         }
     }
     // method to retrieve currently active arm.
-    getActiveArm() {
+    #getActiveArm() {
         for (let i = 0; i < this.arms.length; i++) {
-            if (this.arms[i].style.opacity == '1') {
-                return i;
-            }
+            if (this.arms[i].style.opacity == '1') return i;
         }
         return -1;
     }
     //#endregion
 
-    //#region Monitor Helper Method
-    #updateMonitorLengths(monitorLines, range) {
-        for (let i = monitorLines.length - 1; i > 0; i--) {
-                const current = monitorLines[i];
-                current.length = monitorLines[i - 1].length;
-                current.node.setAttribute(`d`, current.path + current.length);
-            }
-        const newLineL = monitorLines[0];
-        newLineL.length = range.random();
-        newLineL.node.setAttribute(`d`, newLineL.path + newLineL.length);
-    }
-    //#endregion
-
+    //#region Juice Click Method
     juiceClicked(ev) {
         if (ev.originalTarget.getAttribute(`data-active`) == 'true') {
             this.juiceActive = true;
             ev.originalTarget.setAttribute(`data-active`, 'false');
         }
     }
+    //#endregion
+
+    //#region Monitor Helper Method
+    #updateMonitorLengths(monitorLines, range) {
+        for (let i = monitorLines.length - 1; i > 0; i--) {
+            const current = monitorLines[i];
+            current.length = monitorLines[i - 1].length;
+            current.node.setAttribute(`d`, current.path + current.length);
+        }
+        const newLineL = monitorLines[0];
+        newLineL.length = range.random();
+        newLineL.node.setAttribute(`d`, newLineL.path + newLineL.length);
+    }
+    //#endregion
 
     // method called when the current project has been completed and a new one needs to be selected.
     newProject() {
         this.projectName = Projects.newProject();
         this.linesToCompletion = Math.round(this.#lineRange.random());
-        if (this.projectElement) {
-            this.projectElement.innerText = this.projectName;
-        }
-        
+
+        if (this.projectElement) this.projectElement.innerText = this.projectName;
     }
 }
