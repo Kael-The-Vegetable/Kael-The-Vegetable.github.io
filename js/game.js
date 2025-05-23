@@ -79,6 +79,7 @@ class Game {
         ];
 
         this.juiceButton.style.display = 'block';
+        this.juiceClicked = this.juiceClicked.bind(this)
         this.juiceButton.addEventListener(`click`, this.juiceClicked);
         
         this.lines = 0;
@@ -110,7 +111,7 @@ class Game {
             this.#armAnim.attemptUpdate(scaledDelta);
             this.#lineAnim.attemptUpdate(scaledDelta);
             if (this.juiceButton.getAttribute(`data-active`) == 'false') {
-                this.#juiceAnim.attemptUpdate(delta); // uses realtime
+                this.#juiceAnim.attemptUpdate(scaledDelta); // juice button also runs faster.
             }
 
             this.#prevTimeStamp = timestamp;
@@ -154,7 +155,7 @@ class Game {
 
     juiceClicked(ev) {
         if (ev.originalTarget.getAttribute(`data-active`) == 'true') {
-            console.log(this.juiceActive);
+            this.juiceActive = true;
             ev.originalTarget.setAttribute(`data-active`, 'false');
         }
     }
