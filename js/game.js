@@ -22,6 +22,24 @@ function initializeGame(ev) {
     ev.originalTarget.style.display = 'none';
 }
 
+function fitTextInContainer(container, min, max, fontUnit, depth = 5) {
+    let low = min;
+    let high = max;
+    let checkedDepth = 0;
+
+    while(checkedDepth < depth) {
+        const mid = (low + high) * 0.5;
+        container.style.fontSize = mid + fontUnit;
+        if (container.scrollHeight > container.clientHeight + 1) {
+            high = mid;
+        } else {
+            low = mid;
+        }
+        checkedDepth++;
+    }
+    container.style.fontSize = low + fontUnit;
+}
+
 const GAME_SPEED = 250; // smallest unit of time used for delays. 125ms
 
 // class to encapsulate the game running
@@ -35,7 +53,7 @@ class Game {
     
     // Constants
     #lineRange = new NumberRange(10000, 15000);
-    #juiceTime = 40 * GAME_SPEED;
+    static #JUICE_TIME = 40 * GAME_SPEED;
     #juiceMult = 4;
     static #PATH_TRIM_LENGTH = 11;
 
@@ -48,7 +66,7 @@ class Game {
     //#region Animations
     #lineAnim = new Animation(GAME_SPEED,
         () => { if (this.linesElement) this.linesElement.innerText = Math.floor(this.lines); },
-        () => { if (this.linesElement) this.linesElement.innerText = "42"; }
+        () => { if (this.linesElement) this.linesElement.innerText = "0"; }
     );
 
     #armAnim = new Animation(GAME_SPEED,
@@ -56,7 +74,7 @@ class Game {
         () => { this.#setActiveArm(); }
     );
 
-    #juiceAnim = new Animation(this.#juiceTime,
+    #juiceAnim = new Animation(Game.#JUICE_TIME,
         () => {
             if (this.juiceActive) {
                 this.juiceButton?.setAttribute(`data-active`, 'false');
@@ -71,10 +89,10 @@ class Game {
         },
         (currentDelay) => {
             if (this.juiceButton?.getAttribute(`data-active`) == 'true') return;
-            if (currentDelay > this.#juiceTime) currentDelay = this.#juiceTime;
+            if (currentDelay > Game.#JUICE_TIME) currentDelay = Game.#JUICE_TIME;
             const percentage = this.juiceActive ?
-                (100 - 100 * currentDelay / this.#juiceTime) :
-                (100 * currentDelay / this.#juiceTime);
+                (100 - 100 * currentDelay / Game.#JUICE_TIME) :
+                (100 * currentDelay / Game.#JUICE_TIME);
             document.documentElement.style.setProperty(`--juice-level`, percentage + '%');
         }
     );
@@ -228,7 +246,12 @@ class Game {
     newProject() {
         this.projectName = Projects.newProject();
         this.linesToCompletion = Math.round(this.#lineRange.random());
-
-        if (this.projectElement) this.projectElement.innerText = this.projectName;
+        const title = this.projectElement;
+        if (title) { 
+            title.innerHTML = this.projectName;
+            if (title.scrollHeight > title.clientHeight + 1 || parseFloat(title.style.fontSize) < 1.25) {
+                fitTextInContainer(title, 0.8, 1.3, 'rem');
+            }
+        }
     }
 }
