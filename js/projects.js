@@ -11,8 +11,8 @@ export class Projects {
       "Adventure", "Arena", "Auto Clash", "Battle Royale", "Brawl", "Builder", "Card Clash", "Clicker", "Combat", "Cooking", "Dates", "Deckbuilder", "Dungeons", "Escape Room", "Farming", "Fighting", "Fishing", "Flight", "FPS", "God", "Hack-and-Slash", "Horror", "Idle", "Infiltration", "Interactive", "JRPG", "Jumps", "Life", "Management", "Mania", "Match-3", "Mazes", "MMO", "MOBA", "Music", "Mysteries", "Partying", "Point & Click", "Race", "Rhythm", "Roguelike",  "Sandbox", "Shooter", "Simulator", "Strategy", "Synthcraft", "Tinkerlabs", "Tower", "World"
     ]; // 50 genres
     static #sequelTag = [
-      "Aftermath", "Armageddon", "Back in Action", "Code Orange", "Director's Cut", "Dominion", "Extended Edition", "Final Chapter", "Intercepted", "Last Stand", "Origins", "Prologue", "Rebirth", "Reloaded", "Remastered?", "Resurrection", "Returns", "Redux", "Revolution", "The Awakening", "The Fall", "The Better One", ":The Lost Chapters", "The Reckoning", "X"
-    ]; // 26 sequel tags including 1 empty
+      "Aftermath", "Armageddon", "Back in Action", "Code Orange", "Director's Cut", "Dominion", "Extended Edition", "Final Chapter", "Intercepted", "Last Stand", "Origins", "Prologue", "Rebirth", "Reloaded", "Remastered?", "Resurrection", "Returns", "Redux", "Revolution", "The Awakening", "The Fall", "The Better One", "The Lost Chapters", "The Reckoning", "X"
+    ]; // 25 sequel tags
 
     // Constants for internal calculations
     static #ADJECTIVE_LEN = Projects.#adjective.length;
