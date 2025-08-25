@@ -19,7 +19,7 @@ function initializeGame(ev) {
     gameObj?.stop();
     gameObj = new Game();
     gameObj.start();
-    ev.originalTarget.style.display = 'none';
+    ev.target.style.display = 'none';
 }
 
 function fitTextInContainer(container, min, max, fontUnit, depth = 5) {
@@ -222,9 +222,9 @@ class Game {
 
     //#region Juice Click Method
     juiceClicked(ev) {
-        if (ev.originalTarget.getAttribute(`data-active`) == 'true') {
+        if (ev.target.getAttribute(`data-active`) == 'true') {
             this.juiceActive = true;
-            ev.originalTarget.setAttribute(`data-active`, 'false');
+            ev.target.setAttribute(`data-active`, 'false');
         }
     }
     //#endregion
