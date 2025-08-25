@@ -1,1 +1,85 @@
-<p>This is my resume.</p>
+<div class="resume-grid">
+    <div>
+
+<p class="category">EDUCATION</p>
+
+<div class="title-section">
+    <span class="title">NAIT Game Programming</span><br>
+    <span class="subtitle">Dean’s Honour Roll - 4.0 GPA</span><br>
+    <span class="duration">2023 - 2025</span>
+</div>
+<p>Completed NAIT’s DMIT Game Programming Concentration with a 4.0 GPA on the Dean’s Honour Roll<br>
+&nbsp;</p>
+
+<div class="title-section">
+    <span class="title">Highschool Computer Science Award</span><br>
+    <span class="duration">2022</span>
+</div>
+<p>Awarded for having the highest grade average, over all 3 years, in Computer Science<br>
+&nbsp;</p>
+
+<div class="title-section">
+    <span class="title">Highschool Diploma</span><br>
+    <span class="subtitle">Grade 10, 11 & 12 Honours</span><br>
+    <span class="duration">2022</span>
+</div>
+<p>Graduated highschool with honours at Spruce Grove Composite High School</p>
+
+<br>
+<p class="category">EXPERIENCE</p>
+
+<div class="title-section">
+    <span class="title">Fine-Line Jewellers</span><br>
+    <span class="subtitle">Apprentice Goldsmith</span><br>
+    <span class="duration">2022 - 5 Months Full-time</span>
+</div>
+<p>Jewellery manufacturing, repair and cleaning. This involved filing, sanding, polishing and laser welding of precious metals. Other duties included answering phones, changing watch batteries and cataloguing inventory.</p>
+
+    </div>
+    <div>
+
+<p class="category">TECHNICAL SKILLS</p>
+<ul class="points">
+    <li>Unity + Godot</li>
+    <li>C# + GDScript</li>
+    <li>GitHub + Visual Studio</li>
+</ul>
+
+<br>
+<p class="category">CORE SKILLS</p>
+<ul class="points">
+    <li>Problem solving</li>
+    <li>Quick learner</li>
+    <li>Attention to detail</li>
+</ul>
+
+<br>
+<p class="category">SOFT SKILLS</p>
+<ul class="points">
+    <li>Team collaboration</li>
+    <li>Translates technical concepts for non-technical audiences</li>
+</ul>
+
+<br>
+<p class="category">EXTRACURRICULAR ACTIVITIES</p>
+<ul class="points">
+    <li>NAIT Game Creator Space<br>
+        <i>2 Years <small>(final year as VP)</small></i></li>
+    <li>Volunteer Tutor<br>
+        <i>Physics 20</i></li>
+    <li>Music<br>
+        <i>Bass & Electric Guitar</i></li>
+    <li>Minor Football<br>
+        <i>3 Years</i></li>
+</ul>
+
+<br>
+<p class="category">REFERENCE</p>
+<ul>
+    <span class="title">Kim Kostiuk</span><br>
+    <i>Owner of Fine-Line</i><br>
+    info@fine-line.ab.ca
+</ul>
+
+    </div>
+</div>
