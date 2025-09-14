@@ -1,0 +1,44 @@
+form {
+    margin: 0 auto;
+    width: 80%;
+}
+
+label {
+    width: 100%;
+	color: #81afb5;
+}
+
+input,
+textarea {
+    width: 100%;
+    margin-top: 0.3rem;
+    padding: 0.5rem;
+    border: 2px solid transparent;
+    border-radius: 0.5rem;
+    font-family: "SometypeMono-Variable", sans-serif;
+	font-size: 1rem;
+	background: #070c1d;
+	color: #e3f5f1;
+} textarea {
+    resize: vertical;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #39755c;; /* Change to any color you like */
+  outline: none;         /* Optional: removes the default blue glow */
+}
+
+button[type="submit"] {
+    padding: 0.5rem 0.8rem;
+    border: 2px solid transparent;
+    border-radius: 0.5rem;
+    font-family: "SometypeMono-Variable", sans-serif;
+	font-size: 1.2rem;
+    font-weight: 600;
+	background: #39755c;
+	color: #e3f5f1;
+    cursor: pointer;
+} button[type="submit"]:hover {
+    border-color: #b7d974;
+}

@@ -75,10 +75,10 @@
 
 <br>
 <p class="category">REFERENCE</p>
-<ul>
-    <span class="title">Kim Kostiuk</span><br>
+<ul class="points">
+    <li><span class="title">Kim Kostiuk</span><br>
     <i>Owner of Fine-Line</i><br>
-    info@fine-line.ab.ca
+    info@fine-line.ab.ca</li>
 </ul>
 
     </div>

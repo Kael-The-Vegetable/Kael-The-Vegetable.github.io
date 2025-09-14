@@ -1,3 +1,16 @@
 <div>
-    [ CONTACT CONTENT GOES HERE ]
+
+<form action="/submit" method="post">
+  <label for="name">NAME: *</label><br>
+  <input type="text" id="name" name="name" required><br><br>
+
+  <label for="email">EMAIL: *</label><br>
+  <input type="email" id="email" name="email" required><br><br>
+
+  <label for="message">MESSAGE: *</label><br>
+  <textarea id="message" name="message" rows="5" cols="30" required></textarea><br><br>
+
+  <button type="submit">SEND</button>
+</form>
+
 </div>
