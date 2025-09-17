@@ -1,6 +1,6 @@
 <div>
 
-<form action="/submit" method="post">
+<form action="https://formsubmit.co/kael.the.programmer@gmail.com" method="POST" />
   <label for="name">NAME: *</label><br>
   <input type="text" id="name" name="name" required><br><br>
 
