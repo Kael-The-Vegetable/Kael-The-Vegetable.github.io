@@ -1,6 +1,5 @@
 
 document.body.addEventListener("submit", async (event) => {
-    console.log("submit");
     event.preventDefault(); // stop default
 
     const form = document.getElementById("contact-form");
@@ -11,27 +10,28 @@ document.body.addEventListener("submit", async (event) => {
     
     const data = new FormData(form);
 
-    const response = await fetch(form.action, {
+    fetch(form.action, {
         method: form.method,
         headers: { 
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         },
-        body: data
+        body: JSON.stringify(Object.fromEntries(data))
     })// fetch response
         .then(response => {
             if (!response.ok) {
-                throw new Error('Oops! Something went wrong.');
+                throw new Error('Network error! Something went wrong. ' + response.statusText);
             }
-            console.log(response.text());
-            return response.text();
+            return response.json();
         })
         .then(data => {
-            console.log(data);
+            if (data.success === "false") {
+                throw new Error("External error. " + data.message);
+            }
+            console.log("Success:", data);
+            window.location.hash = "thank_you";
         })
         .catch(error => {
-            console.log(error);
-            messageBox.innerHTML = "Network error. Please try again later.<br>&nbsp;";
-            // messageBox.className = "error";
+            messageBox.innerHTML = error.message + " Please try again later.<br>&nbsp;";
         });
 });

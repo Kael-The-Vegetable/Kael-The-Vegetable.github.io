@@ -12,3 +12,6 @@
 .codeBlock .code { padding-left: 2ch; color: #5da75d; }
 .codeBlock .variable { color: #b7d974; }
 .codeBlock .string { color: #e3f5f1; }
+.codeBlock .bool { color: #e2b570 }
+.codeBlock .method { color: #eee98a  }
+.codeBlock .keyword { color: #e494d9 }
