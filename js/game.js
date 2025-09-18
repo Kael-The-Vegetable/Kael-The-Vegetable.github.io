@@ -67,7 +67,7 @@ class Game {
     //#region Animations
     #lineAnim = new Animation(GAME_SPEED,
         () => { 
-            this.lines += LINES_PER_GS.random();
+            this.lines += this.LINES_PER_GS.random();
             if (this.linesElement) this.linesElement.innerText = Math.floor(this.lines); 
         },
         () => { if (this.linesElement) this.linesElement.innerText = "0"; }
