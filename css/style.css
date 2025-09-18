@@ -101,6 +101,16 @@ h1, h2 {
 	font-weight: 600;
 }
 
+/*** QUOTES ***/
+blockquote {
+	font-size: 1.2rem;
+}
+.attribution {
+	color: #81afb5;
+	text-align: right;
+	font-style: italic;
+}
+
 /*** ALIGNMENT ***/
 .center { 
 	display: block;
@@ -114,6 +124,9 @@ h1, h2 {
 }
 
 /*** STYLES ***/
+.note {
+	color: #81afb5;
+}
 .extra-small { 
 	font-size: 0.6rem;
 	font-weight: 500;
@@ -165,6 +178,9 @@ h1, h2 {
 @media (max-width: 1400px) {
 	:root { font-size: 16px; }
 }
-@media (max-width: 1100px) {
+@media (max-width: 1200px) {
 	:root { font-size: 14px; }
+}
+@media (max-width: 1000px) {
+	:root { font-size: 12px; }
 }
