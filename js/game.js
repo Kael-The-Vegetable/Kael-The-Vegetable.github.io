@@ -1,6 +1,6 @@
 import { Projects } from './projects.js';
 import { Animation } from './animation.js';
-import { NumberRange } from './utility.js';
+import { NumberRange, lerp } from './utility.js';
 
 // wait for DOM to load fully
 document.addEventListener(`DOMContentLoaded`, function() {
@@ -50,7 +50,8 @@ class Game {
 
     //#region Private Variables
     #prevTimeStamp;
-    
+    #prevLinesComplete = 0;
+    #lerpLinesCoefficient = 2;
     
     // Constants
     #lineRange = new NumberRange(10000, 15000);
@@ -67,7 +68,7 @@ class Game {
     //#region Animations
     #lineAnim = new Animation(GAME_SPEED,
         () => { 
-            this.lines += this.LINES_PER_GS.random();
+            this.lines += Game.LINES_PER_GS.random();
             if (this.linesElement) this.linesElement.innerText = Math.floor(this.lines); 
         },
         () => { if (this.linesElement) this.linesElement.innerText = "0"; }
@@ -171,12 +172,15 @@ class Game {
 
             const delta = timestamp - this.#prevTimeStamp;
             const scaledDelta = delta * (this.juiceActive ? this.#juiceMult : 1);
+            const deltaSecond = delta * 0.001
 
-            this.progressElement.style.width = (this.lines / this.linesToCompletion) * 100 + '%';
+            this.#prevLinesComplete = lerp(this.#prevLinesComplete, this.lines, deltaSecond * this.#lerpLinesCoefficient);
+            this.progressElement.style.width = (this.#prevLinesComplete / this.linesToCompletion) * 100 + '%';
 
             if (this.lines >= this.linesToCompletion) {
                 this.lines = this.linesToCompletion;
                 this.newProject();
+                this.#prevLinesComplete = 0
                 this.lines = 0;
             }
 
