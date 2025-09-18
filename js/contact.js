@@ -1,6 +1,6 @@
 const form = document.getElementById("contact-form");
 const messageBox = document.getElementById("form-message");
-
+console.log("Log");
 form.addEventListener("submit", async (event) => {
     event.preventDefault(); // stop default
 
@@ -22,6 +22,7 @@ form.addEventListener("submit", async (event) => {
             messageBox.textContent = "Thank you! Your message has been sent.";
             messageBox.className = "success";
             form.reset();
+            console.log("AH");
         } else {
             messageBox.textContent = "Oops! Something went wrong.";
             messageBox.className = "error";
