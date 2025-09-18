@@ -9,6 +9,9 @@
 
   <label for="message">MESSAGE: *</label><br>
   <textarea id="message" name="message" rows="5" cols="30" required></textarea><br><br>
+  
+  <!-- hidden elements for values -->
+  <input type="hidden" name="_subject" value="Kael Kostiuk - Game Programmer">
 
   <button type="submit">SEND</button>
 </form>

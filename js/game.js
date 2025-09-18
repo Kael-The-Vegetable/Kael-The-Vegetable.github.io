@@ -40,16 +40,17 @@ function fitTextInContainer(container, min, max, fontUnit, depth = 5) {
     container.style.fontSize = low + fontUnit;
 }
 
-const GAME_SPEED = 250; // smallest unit of time used for delays. 125ms
+const GAME_SPEED = 250; // smallest unit of time used for delays in ms.
 
 // class to encapsulate the game running
 class Game {
-    
+    static LINES_PER_GS = new NumberRange(100, 400);
+
     frameID;
 
     //#region Private Variables
     #prevTimeStamp;
-    #linesPerMs = 500 / 1000;
+    
     
     // Constants
     #lineRange = new NumberRange(10000, 15000);
@@ -65,7 +66,10 @@ class Game {
 
     //#region Animations
     #lineAnim = new Animation(GAME_SPEED,
-        () => { if (this.linesElement) this.linesElement.innerText = Math.floor(this.lines); },
+        () => { 
+            this.lines += LINES_PER_GS.random();
+            if (this.linesElement) this.linesElement.innerText = Math.floor(this.lines); 
+        },
         () => { if (this.linesElement) this.linesElement.innerText = "0"; }
     );
 
@@ -168,7 +172,6 @@ class Game {
             const delta = timestamp - this.#prevTimeStamp;
             const scaledDelta = delta * (this.juiceActive ? this.#juiceMult : 1);
 
-            this.lines += scaledDelta * this.#linesPerMs;
             this.progressElement.style.width = (this.lines / this.linesToCompletion) * 100 + '%';
 
             if (this.lines >= this.linesToCompletion) {
