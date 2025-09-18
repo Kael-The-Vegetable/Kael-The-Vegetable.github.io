@@ -6,8 +6,8 @@ document.body.addEventListener("submit", async (event) => {
     const form = document.getElementById("contact-form");
     const messageBox = document.getElementById("form-message");
     
-    messageBox.textContent = "Sending...";
-    messageBox.className = "sending";
+    messageBox.innerHTML = "Sending...<br>&nbsp;";
+    // messageBox.className = "sending";
     
     const data = new FormData(form);
 
@@ -31,7 +31,7 @@ document.body.addEventListener("submit", async (event) => {
         })
         .catch(error => {
             console.log(error);
-            messageBox.textContent = "Network error. Please try again later.";
-            messageBox.className = "error";
+            messageBox.innerHTML = "Network error. Please try again later.<br>&nbsp;";
+            // messageBox.className = "error";
         });
 });

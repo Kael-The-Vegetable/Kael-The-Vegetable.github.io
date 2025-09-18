@@ -1,21 +1,18 @@
-<div>
-
 <div id="form-message"></div>
 
 <form id="contact-form" action="https://formsubmit.co/ajax/924322ff501b4f53f49d147abafad8e5 " method="POST"/>
-  <label for="name">NAME: *</label><br>
-  <input type="text" id="name" name="name" required><br><br>
+  <div class="form-row"><label for="name">NAME:</label>
+  <input type="text" id="name" name="name" required autocomplete="on"></div>
 
-  <label for="email">EMAIL: *</label><br>
-  <input type="email" id="email" name="email" required><br><br>
+  <div class="form-row"><label for="email">EMAIL:</label>
+  <input type="email" id="email" name="email" required autocomplete="on"></div>
 
-  <label for="message">MESSAGE: *</label><br>
-  <textarea id="message" name="message" rows="5" cols="30" required></textarea><br><br>
+  <div class="form-row"><label for="message">MESSAGE:</label>
+  <textarea id="message" name="message" rows="5" required></textarea></div>
   
-  <!-- hidden elements for values -->
+  <div class="form-row"><div></div>
+  <button type="submit">SEND</button></div>
+
+  <!-- (!) hidden form field (does not affect flex grid rendering) -->
   <input type="hidden" name="_subject" value="Kael Kostiuk - Game Programmer">
-
-  <button type="submit">SEND</button>
 </form>
-
-</div>
