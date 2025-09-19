@@ -6,7 +6,6 @@ document.body.addEventListener("submit", async (event) => {
     const messageBox = document.getElementById("form-message");
     
     messageBox.innerHTML = "Sending...<br>&nbsp;";
-    // messageBox.className = "sending";
     
     const data = new FormData(form);
 

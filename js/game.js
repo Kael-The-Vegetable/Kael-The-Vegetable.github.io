@@ -170,22 +170,24 @@ class Game {
         const update = (timestamp) => {
             if (!this.#prevTimeStamp) this.#prevTimeStamp = timestamp;
 
-            const delta = timestamp - this.#prevTimeStamp;
-            const scaledDelta = delta * (this.juiceActive ? this.#juiceMult : 1);
-            const deltaSecond = delta * 0.001
+            const delta = timestamp - this.#prevTimeStamp; // true delta between prev frame (in ms)
+            const scaledDelta = delta * (this.juiceActive ? this.#juiceMult : 1); // scaled based on if juice is active
 
-            this.#prevLinesComplete = lerp(this.#prevLinesComplete, this.lines, deltaSecond * this.#lerpLinesCoefficient);
+            this.#prevLinesComplete = lerp(this.#prevLinesComplete, this.lines, scaledDelta * 0.001 * this.#lerpLinesCoefficient);
             this.progressElement.style.width = (this.#prevLinesComplete / this.linesToCompletion) * 100 + '%';
 
             if (this.lines >= this.linesToCompletion) {
                 this.lines = this.linesToCompletion;
-                this.newProject();
-                this.#prevLinesComplete = 0
-                this.lines = 0;
+                if ((this.lines - this.#prevLinesComplete) / this.lines < 0.01) { // if bar is 99% complete just do new project
+                    this.newProject();
+                    this.#prevLinesComplete = 0
+                    this.lines = 0;
+                }
+            } else {
+                this.#lineAnim.attemptUpdate(scaledDelta);
             }
 
             this.#armAnim.attemptUpdate(scaledDelta);
-            this.#lineAnim.attemptUpdate(scaledDelta);
             this.#monitorAnim.attemptUpdate(scaledDelta);
             if (this.juiceButton.getAttribute(`data-active`) == 'false') {
                 this.#juiceAnim.attemptUpdate(scaledDelta);
