@@ -63,14 +63,14 @@
 function annoyCat(cat) {
 	cat.children[0].style.display = "none";
 	cat.children[1].style.display = "block";
-	setTimeout(() => { // flip the tail back after 150ms
+	setTimeout(() => { // flip the tail back after a moment
 		cat.children[0].style.display = 'block';
 		cat.children[1].style.display = 'none';
-    }, 150);
+    }, 100);
 }
 </script>
 
-			<svg viewBox="0 0 300 250">
+			<svg viewBox="0 0 300 250" style="user-select:none;">
 				<g id="chunk" onclick="annoyCat(this);">
 					<path style="stroke:#285454; stroke-width:10; stroke-linecap:round;"
 						d="m 61,83 c 0,0 16,0 16,-16" />
