@@ -12,9 +12,14 @@
 	color: #81afb5;
 	text-align: center;
 }
+.game-title-container{
+	display: flex;
+	justify-content: center; align-items: center;
+	min-height: 3.2rem; max-height: 3.2rem;
+}
 .game-title {
-	line-height: 1.5rem; min-height: 3rem; max-height: 3rem; /* 2 lines tall */
 	font-size: 1.3rem;
+	line-height: 115%;
 	font-weight: 500;
 	color: #e3f5f1;
 	text-align: center;
