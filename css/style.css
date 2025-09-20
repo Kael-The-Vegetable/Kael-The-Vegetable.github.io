@@ -100,6 +100,12 @@ h1, h2 {
 	text-align: center;
 	font-weight: 600;
 }
+.project-title {
+	font-size: 1.6rem;
+	text-align: center;
+	font-weight: 600;
+	color: #b7d974;
+}
 
 /*** QUOTES ***/
 blockquote {
@@ -161,7 +167,7 @@ blockquote {
 	color: #b7d974;
 }
 .construction {
-	color: #b7d974;
+	color: #e2b570;
 }
 .stripes {
 	display: inline-block;
@@ -169,8 +175,8 @@ blockquote {
 	height: 1rem;
 	background-image: repeating-linear-gradient(
 		45deg,
-		#b7d974 0,
-		#b7d974 0.5rem,
+		#e2b570 0,
+		#e2b570 0.5rem,
 		transparent 0.5rem,
 		transparent 1rem
 	);

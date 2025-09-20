@@ -1,7 +1,11 @@
-<svg></svg>
+<h2 style="color:#b7d974;"><i>Thank you for reaching out!</i></h2>
 
-<p class="center">Your message has been sent successfully! I'll review your message and get back as soon as possible.</p>
+<p class="center">Your message has been sent.<br>
+I'll get back to you as soon as possible.</p>
 
+<!-- <p class="center">Your message has been sent successfully! I'll review your message and get back as soon as possible.</p> -->
+
+&nbsp;<br>
 <div class="codeBlock">
     <div class="line">1</div>
     <div class="code"><span class="comment">// processing form</span></div>
@@ -13,7 +17,8 @@
     <div class="code"><span class="variable">message</span>.<span class="variable">received</span> = <span class="bool">true</span>;</div>
 
     <div class="line">4</div>
-    <div class="code">let <span class="variable">status</span> = <span class="string">"waiting"</span>;</div>
+    <!-- <div class="code">let <span class="variable">status</span> = <span class="string">"waiting"</span>;</div> -->
+    <div class="code"><span class="variable">message.status</span> = <span class="string">"waiting"</span>;</div>
 
     <div class="line">5</div>
     <div class="code">let <span class="variable">response</span> = <span class="keyword">await</span> <span class="method">fetch</span>(<span class="variable">inbox</span>, <span class="variable">message</span>);
