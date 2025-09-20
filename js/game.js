@@ -1,6 +1,6 @@
 import { Projects } from './projects.js';
 import { Animation } from './animation.js';
-import { NumberRange, lerp } from './utility.js';
+import { NumberRange, lerp, fitTextInContainer } from './utility.js';
 
 // wait for DOM to load fully
 document.addEventListener(`DOMContentLoaded`, function() {
@@ -22,23 +22,7 @@ function initializeGame(ev) {
     ev.target.style.display = 'none';
 }
 
-function fitTextInContainer(container, min, max, fontUnit, depth = 5) {
-    let low = min;
-    let high = max;
-    let checkedDepth = 0;
 
-    while(checkedDepth < depth) {
-        const mid = (low + high) * 0.5;
-        container.style.fontSize = mid + fontUnit;
-        if (container.scrollHeight > container.clientHeight + 1) {
-            high = mid;
-        } else {
-            low = mid;
-        }
-        checkedDepth++;
-    }
-    container.style.fontSize = low + fontUnit;
-}
 
 const GAME_SPEED = 250; // smallest unit of time used for delays in ms.
 
@@ -119,7 +103,9 @@ class Game {
     constructor() {
         this.juiceButton = document.getElementById(`juicer`);
         this.linesElement = document.getElementById(`lines`);
-        this.projectElement = document.getElementById(`title`);
+        this.titleElement = document.getElementById(`title`);
+        this.testTitle = document.getElementById(`title-test`);
+        this.testTitleContainer = document.getElementById('title-container-test');
         this.progressElement = document.getElementById(`progress`);
         this.arms = [
             document.getElementById(`arm-resting`),
@@ -178,7 +164,7 @@ class Game {
 
             if (this.lines >= this.linesToCompletion) {
                 this.lines = this.linesToCompletion;
-                if ((this.lines - this.#prevLinesComplete) / this.lines < 0.01) { // if bar is 99% complete just do new project
+                if ((this.lines - this.#prevLinesComplete) / this.lines < 0.005) { // if bar is 99.5% complete just do new project
                     this.newProject();
                     this.#prevLinesComplete = 0
                     this.lines = 0;
@@ -255,30 +241,12 @@ class Game {
     newProject() {
         this.projectName = Projects.newProject();
         this.linesToCompletion = Math.round(this.#lineRange.random());
-        const title = this.projectElement;
+        const title = this.titleElement;
         if (title) { 
-
-            // (!!!) DAD'S CHANGES
-            const testTitle = document.getElementById('title-test');
-            const maxHeight = document.getElementById('title-container-test').clientHeight;
-            testTitle.innerHTML = this.projectName;
-            let height = 1.9; // (*) 1.8 will be starting height below
-            testTitle.style.fontSize = `${height}rem`;
-            void testTitle.offsetHeight; // (!) force rendering refresh
-            let heightTest = testTitle.scrollHeight;
-            while (heightTest > maxHeight || height < 0.9) {
-                height = Math.round((height - 0.1) * 10) / 10; // round to nearest tenth
-                testTitle.style.fontSize = `${height}rem`;
-                void testTitle.offsetHeight; // (!)
-                heightTest = testTitle.scrollHeight;
-            }
-            title.style.fontSize = `${height}rem`;
+            // check on tester
+            this.testTitle.innerHTML = this.projectName;
+            title.style.fontSize = fitTextInContainer(this.testTitle, 0.6, 1.6, this.testTitleContainer.clientHeight, 'rem');
             title.innerHTML = this.projectName;
-
-            /* title.innerHTML = this.projectName;
-            if (title.scrollHeight > title.clientHeight + 1 || parseFloat(title.style.fontSize) < 1.25) {
-                fitTextInContainer(title, 0.8, 1.3, 'rem');
-            } */
         }
     }
 }
