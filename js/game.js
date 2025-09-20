@@ -257,10 +257,28 @@ class Game {
         this.linesToCompletion = Math.round(this.#lineRange.random());
         const title = this.projectElement;
         if (title) { 
+
+            // (!!!) DAD'S CHANGES
+            const testTitle = document.getElementById('title-test');
+            const maxHeight = document.getElementById('title-container-test').clientHeight;
+            testTitle.innerHTML = this.projectName;
+            let height = 1.9; // (*) 1.8 will be starting height below
+            testTitle.style.fontSize = `${height}rem`;
+            void testTitle.offsetHeight; // (!) force rendering refresh
+            let heightTest = testTitle.scrollHeight;
+            while (heightTest > maxHeight || height < 0.9) {
+                height = Math.round((height - 0.1) * 10) / 10; // round to nearest tenth
+                testTitle.style.fontSize = `${height}rem`;
+                void testTitle.offsetHeight; // (!)
+                heightTest = testTitle.scrollHeight;
+            }
+            title.style.fontSize = `${height}rem`;
             title.innerHTML = this.projectName;
+
+            /* title.innerHTML = this.projectName;
             if (title.scrollHeight > title.clientHeight + 1 || parseFloat(title.style.fontSize) < 1.25) {
                 fitTextInContainer(title, 0.8, 1.3, 'rem');
-            }
+            } */
         }
     }
 }
