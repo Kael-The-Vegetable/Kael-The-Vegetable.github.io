@@ -1,0 +1,18 @@
+#paw-container {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		overflow: hidden;
+		pointer-events: none;
+	}
+
+.paw-print {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    transform-origin: center;
+    opacity: 0; /* Start invisible */
+    transition: opacity 0.5s ease-out;
+}

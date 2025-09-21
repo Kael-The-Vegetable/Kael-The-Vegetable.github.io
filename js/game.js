@@ -12,8 +12,13 @@ document.addEventListener(`DOMContentLoaded`, function() {
         console.error("couldn't find the game start button!");
     }
 
-    let cats = document.querySelectorAll('[name="cat"]');
-    catsObj = new Cats(cats);
+    const baseFontSize = 19;
+    const scaleAtBase = 0.3;
+
+    catsObj = new Cats(
+        document.querySelectorAll('[name="cat"]'),
+        document.getElementById('paw-container'),
+        scaleAtBase * ROOT_FONT_SIZE / baseFontSize);
 });
 
 let gameObj;
@@ -27,7 +32,7 @@ function initializeGame(ev) {
     ev.target.style.display = 'none';
 }
 
-
+const ROOT_FONT_SIZE = parseFloat(getComputedStyle(document.documentElement).fontSize);
 const GAME_SPEED = 250; // smallest unit of time used for delays in ms.
 
 // class to encapsulate the game running
