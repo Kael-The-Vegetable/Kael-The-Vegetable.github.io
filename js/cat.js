@@ -1,4 +1,4 @@
-import { ObjectPool, Rectangle, Vector2 } from "./utility";
+import { ObjectPool, Rectangle, Vector2 } from "./utility.js";
 
 export class Cats {
 
@@ -28,6 +28,7 @@ export class Cats {
             this.catDict[cats[i].getAttribute('id')] = [ this.#checkForElement(cats[i], 'content'), this.#checkForElement(cats[i], 'annoyed') ];
             cats[i].addEventListener(`click`, this.annoyCat.bind(this, cats[i].getAttribute('id')));
         } // filling cat dictionary for future ease.
+        this.beginWalk();
     }
     //#region Helper Methods
     #checkForElement(cat, element) {
@@ -73,16 +74,11 @@ export class Cats {
         }, 100);
     }
 }
+
 class PawWalk {
     static PAW_BASE_SIZE = 100;
     static PAW_SVG = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path style="fill:#E3F5F188;" d="M 66,4 C 53,4 47,32 61,36 81,42 81,6 67,4 Z M 34,6 H 33 C 17,10 21,46 41,38 54,33 46,6 34,6 Z m 55,23 c -5,0 -12,6 -14,11 -4,8 2,23 10,20 12,-4 14,-26 8,-30 -1,-1 -2,-1 -4,-1 z M 10,33 C 9,33 8,33 7,34 -1,40 7,64 17,64 25,64 30,51 26,45 22,39 16,33 10,33 Z M 51,43 C 43,43 34,50 33,56 31,67 25,68 21,70 5,78 15,104 35,94 43,90 53,90 61,94 87,108 95,74 77,66 70,63 67,60 65,54 62,46 57,43 51,43 Z" /></svg>`
     static PAW_BASE_STEP = PawWalk.PAW_BASE_SIZE * 2;
-    
-    #margin = 0;
-    #windowMargined;
-    #pawContainer;
-    #pathID;
-
     // area where center of paw path can be;
     static CENTRAL_BOX = new Rectangle(
         window.innerWidth * 0.25, 
@@ -90,9 +86,14 @@ class PawWalk {
         window.innerWidth * 0.5, 
         window.innerHeight * 0.5); 
 
-    
+    //#region Private Variables
+    #margin = 0;
+    #windowMargined;
+    #pawContainer;
+    #pathID;
     #pawPool;
     #pawNum
+    //#endregion
 
     constructor(pawContainer, scaleFactor) {
 
@@ -130,10 +131,27 @@ class PawWalk {
         
         const perpAngle = Math.atan2(deltaV.y, deltaV.x) + Math.PI * 0.5;
 
-        this.#pathID = setInterval(this.drawPaw.bind(this), 150);
+        this.#pathID = setInterval(this.drawPaw.bind(this, start, deltaV, steps, perpAngle), 150);
     }
-    drawPaw() {
+    drawPaw(start, delta, steps, perpAngle) {
+        const progress = this.#pawNum / (steps - 1);
+        const baseV = start.add(delta.mult(progress));
 
+        const even = this.#pawNum % 2 === 0;
+
+        const offset = (even ? 1 : -1) * PawWalk.PAW_BASE_SIZE * this.scaleFactor * 0.5;
+        const paw = this.#pawPool.giveNextAvailable();
+
+        paw.pos = baseV.add(new Vector2(Math.cos(perpAngle), Math.sin(perpAngle)).mult(offset));
+        paw.rot = perpAngle;
+        paw.flipped = even;
+        paw.popUp();
+        this.#pawNum++; // ensure we know we are adding paws.
+
+        if (this.#pawNum >= steps) {
+            clearInterval(this.#pathID);
+            this.#pawNum = 0;
+        }
     }
 }
 class PawPrint {
@@ -167,7 +185,7 @@ class PawPrint {
         this.parent.appendChild(this.#element);
     }
     available() {
-        return this.#element.style.opacity === "1";
+        return this.#element.style.opacity === "0";
     }
     popUp() {
         this.#element.style.left = `${this.pos.x - this.pawSize * 0.5}px`;

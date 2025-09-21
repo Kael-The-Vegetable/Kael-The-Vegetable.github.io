@@ -15,17 +15,13 @@ export class NumberRange {
 export class Vector2 {
     static ZERO = new Vector2(0, 0);
     static ONE = new Vector2(1, 1);
-    
+
     constructor(x, y) {
         this.x = x;
         this.y = y;
     }
-    constructor( {x, y} ) {
-        this.x = x;
-        this.y = y;
-    }
     magnitude() {
-        return Math.sqrt(x * x + y * y);
+        return Math.sqrt(this.x * this.x + this.y * this.y);
     }
     max() {
         return this.x > this.y ? this.x : this.y;
@@ -43,8 +39,17 @@ export class Vector2 {
     sub(other) {
         return new Vector2(this.x - other.x, this.y - other.y);
     }
+    /**
+     * 
+     * @param {number} other 
+     * @returns {Vector2}
+     */
+    mult(other) {
+        return new Vector2(this.x * other, this.y * other);
+    }
     //#endregion
 }
+
 
 export class Rectangle {
     constructor(x, y, w, h) {
@@ -52,6 +57,7 @@ export class Rectangle {
         this.size = new Vector2(w, h);
         this.max = this.pos.add(this.size);
     }
+
     randomPoint() {
         return new Vector2(
             this.pos.x + Math.random() * this.size.x,
@@ -60,28 +66,29 @@ export class Rectangle {
     clipLineToBox(v1, v2) {
         const deltaV = v2.sub(v1);
         const points = [];
-        function addIfValid(edge, primary, delta, isPrimeX) {
-            const t = (edge - primary.x) / delta.x;
-            const side = primary.y + t * delta.y;
-            
-            let v = isPrimeX ? new Vector2(edge, side) : new Vector2(side, edge);
-            
-            if (v.x >= this.pos.x && v.x <= this.max.x 
-             && v.y >= this.pos.y && v.y <= this.max.y) {
-                points.push(v);
-            }
-        }
+        
         if (deltaV.x !== 0) {
-            addIfValid(this.pos.x, v, deltaV, true);
-            addIfValid(this.max.x, v, deltaV, true);
+            this.#addIfValid(points, this.pos.x, v1, deltaV, true);
+            this.#addIfValid(points, this.max.x, v1, deltaV, true);
         }
         if (deltaV.y !== 0) {
-            let vFlip = v.flip();
+            let vFlip = v1.flip();
             let dVFlip = deltaV.flip();
-            addIfValid(this.pos.y, vFlip, dVFlip, false);
-            addIfValid(this.max.y, vFlip, dVFlip, false);
+            this.#addIfValid(points, this.pos.y, vFlip, dVFlip, false);
+            this.#addIfValid(points, this.max.y, vFlip, dVFlip, false);
         }
         return points;
+    }
+    #addIfValid(points, edge, primary, delta, isPrimeX) {
+        const t = (edge - primary.x) / delta.x;
+        const side = primary.y + t * delta.y;
+        
+        let v = isPrimeX ? new Vector2(edge, side) : new Vector2(side, edge);
+        
+        if (v.x >= this.pos.x && v.x <= this.max.x 
+            && v.y >= this.pos.y && v.y <= this.max.y) {
+            points.push(v);
+        }
     }
 }
 
@@ -93,7 +100,7 @@ export class ObjectPool {
     constructor(numOfObjects, methodOfGeneration) {
         this.#generationMethod = methodOfGeneration;
         for (let i = 0; i < numOfObjects; i++) {
-            objects[i] = this.#generationMethod();
+            this.objects[i] = this.#generationMethod();
         }
     }
 
