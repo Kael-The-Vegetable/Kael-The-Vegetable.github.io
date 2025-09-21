@@ -1,5 +1,6 @@
 import { Projects } from './projects.js';
 import { Animation } from './animation.js';
+import { Cats } from './cat.js';
 import { NumberRange, lerp, fitTextInContainer } from './utility.js';
 
 // wait for DOM to load fully
@@ -10,9 +11,13 @@ document.addEventListener(`DOMContentLoaded`, function() {
     } else {
         console.error("couldn't find the game start button!");
     }
+
+    let cats = document.querySelectorAll('[name="cat"]');
+    catsObj = new Cats(cats);
 });
 
 let gameObj;
+let catsObj;
 
 // called when start-game button is pressed.
 function initializeGame(ev) {
@@ -21,7 +26,6 @@ function initializeGame(ev) {
     gameObj.start();
     ev.target.style.display = 'none';
 }
-
 
 
 const GAME_SPEED = 250; // smallest unit of time used for delays in ms.
