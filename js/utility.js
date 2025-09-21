@@ -48,8 +48,11 @@ export class Vector2 {
         return new Vector2(this.x * other, this.y * other);
     }
     //#endregion
-}
 
+    toString() {
+        return `Vector2(${this.x}, ${this.y})`;
+    }
+}
 
 export class Rectangle {
     constructor(x, y, w, h) {
@@ -86,9 +89,14 @@ export class Rectangle {
         let v = isPrimeX ? new Vector2(edge, side) : new Vector2(side, edge);
         
         if (v.x >= this.pos.x && v.x <= this.max.x 
-            && v.y >= this.pos.y && v.y <= this.max.y) {
+            && v.y >= this.pos.y && v.y <= this.max.y
+        && !points.some(p => p.x === v.x && p.y === v.y)) {
             points.push(v);
         }
+    }
+
+    toString() {
+        return `Rectangle(${this.pos.x}, ${this.pos.y}, ${this.size.x}, ${this.size.y})`;
     }
 }
 
