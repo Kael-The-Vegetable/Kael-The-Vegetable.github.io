@@ -1,6 +1,7 @@
 import { Projects } from './game_helpers/projects.js';
 import { Animation } from './game_helpers/animation.js';
 import { Physics } from './game_helpers/physics_titles.js';
+import { Cats } from './cat.js';
 import { NumberRange, lerp, fitTextInContainer } from './game_helpers/utility.js';
 
 
@@ -15,6 +16,14 @@ document.addEventListener(`DOMContentLoaded`, function() {
     } else {
         console.error("couldn't find the game start button!");
     }
+
+    const baseFontSize = 19;
+    const scaleAtBase = 0.3;
+
+    catsObj = new Cats(
+        document.querySelectorAll('[name="cat"]'),
+        document.getElementById('paw-container'),
+        scaleAtBase * ROOT_FONT_SIZE / baseFontSize);
 });
 
 window.addEventListener(`resize`, function() {
@@ -24,6 +33,7 @@ window.addEventListener(`resize`, function() {
 
 let gameObj;
 let physics;
+let catsObj;
 
 // called when start-game button is pressed.
 function initializeGame(ev) {
@@ -38,6 +48,7 @@ function initializeGame(ev) {
     }
 }
 
+const ROOT_FONT_SIZE = parseFloat(getComputedStyle(document.documentElement).fontSize);
 const GAME_SPEED = 250; // smallest unit of time used for delays in ms.
 
 // class to encapsulate the game running
