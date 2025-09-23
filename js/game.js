@@ -1,7 +1,7 @@
 import { Projects } from './game_helpers/projects.js';
 import { Animation } from './game_helpers/animation.js';
 import { Physics } from './game_helpers/physics_titles.js';
-import { Cats } from './cat.js';
+import { Cats } from './game_helpers/cat.js';
 import { NumberRange, lerp, fitTextInContainer } from './game_helpers/utility.js';
 
 
