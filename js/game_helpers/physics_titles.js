@@ -5,25 +5,29 @@ const Engine = Matter.Engine,
       Composite = Matter.Composite;
 
 export class Physics {
-    
-    constructor() {
+    static GAME_WIDTH;
+
+    #ground;
+
+    constructor(canvas) {
         
         // create an engine
         this.engine = Engine.create();
         
         // create a renderer
         this.render = Render.create({
-            element: document.body,
-            engine: this.engine
+            canvas: canvas,
+            context: canvas.getContext("2d"),
+            engine: this.engine,
         });
-        
+        this.resize();
         // create two boxes and a ground
-        var boxA = Bodies.rectangle(400, 200, 80, 80);
-        var boxB = Bodies.rectangle(450, 50, 80, 80);
-        var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
+        var boxA = Bodies.rectangle(Physics.GAME_WIDTH * 0.5, 200, 80, 80);
+        var boxB = Bodies.rectangle(Physics.GAME_WIDTH * 0.55, 50, 80, 80);
+        this.#ground = Bodies.rectangle(Physics.GAME_WIDTH * 0.5, window.innerHeight + 30, window.innerWidth, 60, { isStatic: true });
         
         // add all of the bodies to the world
-        Composite.add(this.engine.world, [boxA, boxB, ground]);
+        Composite.add(this.engine.world, [boxA, boxB, this.#ground]);
         
         // run the renderer
         Render.run(this.render);
@@ -33,5 +37,10 @@ export class Physics {
         
         // run the engine
         Runner.run(this.runner, this.engine);
+    }
+
+    resize() {
+        Physics.GAME_WIDTH = this.render.canvas.parentElement.clientWidth;
+        Render.setSize(this.render, Physics.GAME_WIDTH, window.innerHeight);
     }
 }

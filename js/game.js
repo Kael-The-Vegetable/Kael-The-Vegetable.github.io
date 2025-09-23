@@ -8,6 +8,8 @@ import { NumberRange, lerp, fitTextInContainer } from './game_helpers/utility.js
 // wait for DOM to load fully
 document.addEventListener(`DOMContentLoaded`, function() {
     const startButton = document.getElementById(`start`);
+    
+
     if (startButton) {
         startButton.addEventListener(`click`, initializeGame);
     } else {
@@ -15,7 +17,13 @@ document.addEventListener(`DOMContentLoaded`, function() {
     }
 });
 
+window.addEventListener(`resize`, function() {
+    console.log("resize");
+    physics?.resize();
+});
+
 let gameObj;
+let physics;
 
 // called when start-game button is pressed.
 function initializeGame(ev) {
@@ -23,7 +31,11 @@ function initializeGame(ev) {
     gameObj = new Game();
     gameObj.start();
     ev.target.style.display = 'none';
-    new Physics();
+
+    const canvas = document.getElementById(`game-physics-box`);
+    if (canvas) { 
+        physics = new Physics(canvas);
+    }
 }
 
 const GAME_SPEED = 250; // smallest unit of time used for delays in ms.
