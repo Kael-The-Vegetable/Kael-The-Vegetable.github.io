@@ -23,7 +23,7 @@ export class Cats {
      */
     constructor(cats, pawContainer, scaleFactor) {
         this.#pawPath = new PawWalk(pawContainer, scaleFactor);
-        
+
         for (let i = 0; i < cats.length; i++) {
             this.catDict[cats[i].getAttribute('id')] = [ this.#checkForElement(cats[i], 'content'), this.#checkForElement(cats[i], 'annoyed') ];
             cats[i].addEventListener(`click`, this.annoyCat.bind(this, cats[i].getAttribute('id')));
@@ -75,6 +75,10 @@ export class Cats {
             this.catDict[id][1].style.display = 'none';
         }, 100);
     }
+
+    resize(scale) {
+        this.#pawPath.resize(scale);
+    }
 }
 
 class PawWalk {
@@ -91,7 +95,6 @@ class PawWalk {
     #margin = 0;
     #windowMargined;
     #pawContainer;
-    #pathID;
     #pawPool;
     //#endregion
 
@@ -160,6 +163,25 @@ class PawWalk {
         paw.popUp();
     }
 
+    resize(scale) {
+        this.scaleFactor = scale;
+        this.#margin = this.scaleFactor * PawWalk.PAW_BASE_SIZE * Math.SQRT2;
+        this.#windowMargined = new Rectangle(
+            -this.#margin, 
+            -this.#margin,
+            window.innerWidth + this.#margin * 2,
+            window.innerHeight + this.#margin * 2
+        );
+
+        this.#pawPool.objects.forEach(o => {
+            o.resize(scale);
+        });
+        PawWalk.CENTRAL_BOX.pos.x = window.innerWidth * 0.25;
+        PawWalk.CENTRAL_BOX.pos.y = window.innerHeight * 0.25;
+        PawWalk.CENTRAL_BOX.size.x = window.innerWidth * 0.5;
+        PawWalk.CENTRAL_BOX.size.y = window.innerHeight * 0.5;
+    }
+
     #setIntervalWithCount(callback, interval) {
         let count = 0;
         const id = setInterval(() => {
@@ -218,6 +240,10 @@ class PawPrint {
             this.#element.style.opacity = 0;
             setTimeout(() => this.#available = true, this.fadeOut);
         }, this.fadeOut);
+    }
+    resize(scale) {
+        this.scaleFactor = scale;
+        this.pawSize = PawWalk.PAW_BASE_SIZE * this.scaleFactor;
     }
     destroy() {
         this.#element.remove();

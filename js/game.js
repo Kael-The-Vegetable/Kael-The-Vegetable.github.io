@@ -1,24 +1,29 @@
-import { Projects } from './projects.js';
-import { Animation } from './animation.js';
-import { Cats } from './cat.js';
-import { NumberRange, lerp, fitTextInContainer } from './utility.js';
+import { Projects } from './game_helpers/projects.js';
+import { Animation } from './game_helpers/animation.js';
+import { Cats } from './game_helpers/cat.js';
+import { NumberRange, Utilities } from './game_helpers/utility.js';
+
+
 
 // wait for DOM to load fully
 document.addEventListener(`DOMContentLoaded`, function() {
     const startButton = document.getElementById(`start`);
+    
+
     if (startButton) {
         startButton.addEventListener(`click`, initializeGame);
     } else {
         console.error("couldn't find the game start button!");
     }
 
-    const baseFontSize = 19;
-    const scaleAtBase = 0.3;
-
     catsObj = new Cats(
         document.querySelectorAll('[name="cat"]'),
         document.getElementById('paw-container'),
-        scaleAtBase * ROOT_FONT_SIZE / baseFontSize);
+        BASE_SCREEN_SCALE * Utilities.WindowSmaller() / BASE_SCREEN_SIZE);
+});
+
+window.addEventListener(`resize`, function() {
+    catsObj?.resize(BASE_SCREEN_SCALE * Utilities.WindowSmaller() / BASE_SCREEN_SIZE);
 });
 
 let gameObj;
@@ -32,8 +37,9 @@ function initializeGame(ev) {
     ev.target.style.display = 'none';
 }
 
-const ROOT_FONT_SIZE = parseFloat(getComputedStyle(document.documentElement).fontSize);
 const GAME_SPEED = 250; // smallest unit of time used for delays in ms.
+const BASE_SCREEN_SIZE = 800;
+const BASE_SCREEN_SCALE = 0.3;
 
 // class to encapsulate the game running
 class Game {
@@ -168,7 +174,7 @@ class Game {
             const delta = timestamp - this.#prevTimeStamp; // true delta between prev frame (in ms)
             const scaledDelta = delta * (this.juiceActive ? this.#juiceMult : 1); // scaled based on if juice is active
 
-            this.#prevLinesComplete = lerp(this.#prevLinesComplete, this.lines, scaledDelta * 0.001 * this.#lerpLinesCoefficient);
+            this.#prevLinesComplete = Utilities.Lerp(this.#prevLinesComplete, this.lines, scaledDelta * 0.001 * this.#lerpLinesCoefficient);
             this.progressElement.style.width = (this.#prevLinesComplete / this.linesToCompletion) * 100 + '%';
 
             if (this.lines >= this.linesToCompletion) {
@@ -254,7 +260,7 @@ class Game {
         if (title) { 
             // check on tester
             this.testTitle.innerHTML = this.projectName;
-            title.style.fontSize = fitTextInContainer(this.testTitle, 0.6, 1.6, this.testTitleContainer.clientHeight, 'rem');
+            title.style.fontSize = Utilities.FitTextInContainer(this.testTitle, 0.6, 1.6, this.testTitleContainer.clientHeight, 'rem');
             title.innerHTML = this.projectName;
         }
     }
