@@ -1,8 +1,7 @@
 import { Projects } from './game_helpers/projects.js';
 import { Animation } from './game_helpers/animation.js';
-import { Physics } from './game_helpers/physics_titles.js';
 import { Cats } from './game_helpers/cat.js';
-import { NumberRange, lerp, fitTextInContainer } from './game_helpers/utility.js';
+import { NumberRange, lerp, fitTextInContainer, windowSmaller } from './game_helpers/utility.js';
 
 
 
@@ -17,22 +16,17 @@ document.addEventListener(`DOMContentLoaded`, function() {
         console.error("couldn't find the game start button!");
     }
 
-    const baseFontSize = 19;
-    const scaleAtBase = 0.3;
-
     catsObj = new Cats(
         document.querySelectorAll('[name="cat"]'),
         document.getElementById('paw-container'),
-        scaleAtBase * ROOT_FONT_SIZE / baseFontSize);
+        BASE_SCREEN_SCALE * windowSmaller() / BASE_SCREEN_SIZE);
 });
 
 window.addEventListener(`resize`, function() {
-    console.log("resize");
-    physics?.resize();
+    catsObj?.resize(BASE_SCREEN_SCALE * windowSmaller() / BASE_SCREEN_SIZE);
 });
 
 let gameObj;
-let physics;
 let catsObj;
 
 // called when start-game button is pressed.
@@ -41,15 +35,11 @@ function initializeGame(ev) {
     gameObj = new Game();
     gameObj.start();
     ev.target.style.display = 'none';
-
-    const canvas = document.getElementById(`game-physics-box`);
-    if (canvas) { 
-        physics = new Physics(canvas);
-    }
 }
 
-const ROOT_FONT_SIZE = parseFloat(getComputedStyle(document.documentElement).fontSize);
 const GAME_SPEED = 250; // smallest unit of time used for delays in ms.
+const BASE_SCREEN_SIZE = 800;
+const BASE_SCREEN_SCALE = 0.3;
 
 // class to encapsulate the game running
 class Game {

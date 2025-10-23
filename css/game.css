@@ -11,7 +11,7 @@
 .game-background {
 	position: absolute;
 	inset: 0;
-	width: 100%;
+	width: calc(100% + 5vw);
 	height: 100%;
 	z-index: -1;
 }

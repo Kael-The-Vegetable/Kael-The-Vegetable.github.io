@@ -40,7 +40,7 @@ export class Physics {
     }
 
     resize() {
-        Physics.GAME_WIDTH = this.render.canvas.parentElement.clientWidth;
+        Physics.GAME_WIDTH = this.render.canvas.parentElement.clientWidth + window.innerWidth * 0.05;
         Render.setSize(this.render, Physics.GAME_WIDTH, window.innerHeight);
     }
 }

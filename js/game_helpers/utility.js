@@ -160,4 +160,8 @@ export function shuffleArray(array) {
         [array[i], array[j]] = [array[j], array[i]];
     }
 }
+
+export function windowSmaller() {
+    return window.innerHeight > window.innerWidth ? window.innerWidth : window.innerHeight;
+}
 //#endregion
