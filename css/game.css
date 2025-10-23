@@ -8,13 +8,6 @@
 	height: auto;
 	min-height: 6rem;
 }
-.game-background {
-	position: absolute;
-	inset: 0;
-	width: calc(100% + 5vw);
-	height: 100%;
-	z-index: -1;
-}
 .game-category {
 	color: #81afb5;
 	text-align: center;
