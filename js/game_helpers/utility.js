@@ -128,40 +128,41 @@ export class ObjectPool {
 }
 //#endregion
 
-//#region Functions
-export function lerp(firstNum, secondNum, delta) {
-    if (delta > 1) delta = 1;
-    else if (delta < 0) delta = 0;
-    return firstNum * (1 - delta) + secondNum * delta
-}
+export class Utilities {
 
-export function fitTextInContainer(container, min, max, maxHeight, fontUnit, depth = 10) {
-    let low = min;
-    let high = max;
-    let checkedDepth = 0;
+    static Lerp(firstNum, secondNum, delta) {
+        if (delta > 1) delta = 1;
+        else if (delta < 0) delta = 0;
+        return firstNum * (1 - delta) + secondNum * delta
+    }
 
-    while(checkedDepth < depth) {
-        const mid = (low + high) * 0.5;
-        container.style.fontSize = mid + fontUnit;
-        void container.offsetHeight; // refresh for browser
-        if (container.scrollHeight > maxHeight) {
-            high = mid;
-        } else {
-            low = mid;
+    static FitTextInContainer(container, min, max, maxHeight, fontUnit, depth = 10) {
+        let low = min;
+        let high = max;
+        let checkedDepth = 0;
+
+        while(checkedDepth < depth) {
+            const mid = (low + high) * 0.5;
+            container.style.fontSize = mid + fontUnit;
+            void container.offsetHeight; // refresh for browser
+            if (container.scrollHeight > maxHeight) {
+                high = mid;
+            } else {
+                low = mid;
+            }
+            checkedDepth++;
         }
-        checkedDepth++;
+        return low + fontUnit;
     }
-    return low + fontUnit;
-}
 
-export function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+    static ShuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    static WindowSmaller() {
+        return window.innerHeight > window.innerWidth ? window.innerWidth : window.innerHeight;
     }
 }
-
-export function windowSmaller() {
-    return window.innerHeight > window.innerWidth ? window.innerWidth : window.innerHeight;
-}
-//#endregion

@@ -1,4 +1,4 @@
-import { shuffleArray } from "./utility.js";
+import { Utilities } from "./utility.js";
 
 export class WordDeck {
     #words = [];
@@ -53,7 +53,7 @@ export class MultiWordDeck {
     shuffle() {
         for (let i = 0; i < this.#decksDrawSequence.length; i++) {
             this.#decksDrawSequence[i][0].shuffle();
-            shuffleArray(this.#decksDrawSequence[i][1]);
+            Utilities.ShuffleArray(this.#decksDrawSequence[i][1]);
         }
     }
     peek() {

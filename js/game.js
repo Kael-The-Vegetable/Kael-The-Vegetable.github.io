@@ -1,7 +1,7 @@
 import { Projects } from './game_helpers/projects.js';
 import { Animation } from './game_helpers/animation.js';
 import { Cats } from './game_helpers/cat.js';
-import { NumberRange, lerp, fitTextInContainer, windowSmaller } from './game_helpers/utility.js';
+import { NumberRange, Utilities } from './game_helpers/utility.js';
 
 
 
@@ -19,11 +19,11 @@ document.addEventListener(`DOMContentLoaded`, function() {
     catsObj = new Cats(
         document.querySelectorAll('[name="cat"]'),
         document.getElementById('paw-container'),
-        BASE_SCREEN_SCALE * windowSmaller() / BASE_SCREEN_SIZE);
+        BASE_SCREEN_SCALE * Utilities.WindowSmaller() / BASE_SCREEN_SIZE);
 });
 
 window.addEventListener(`resize`, function() {
-    catsObj?.resize(BASE_SCREEN_SCALE * windowSmaller() / BASE_SCREEN_SIZE);
+    catsObj?.resize(BASE_SCREEN_SCALE * Utilities.WindowSmaller() / BASE_SCREEN_SIZE);
 });
 
 let gameObj;
@@ -174,7 +174,7 @@ class Game {
             const delta = timestamp - this.#prevTimeStamp; // true delta between prev frame (in ms)
             const scaledDelta = delta * (this.juiceActive ? this.#juiceMult : 1); // scaled based on if juice is active
 
-            this.#prevLinesComplete = lerp(this.#prevLinesComplete, this.lines, scaledDelta * 0.001 * this.#lerpLinesCoefficient);
+            this.#prevLinesComplete = Utilities.Lerp(this.#prevLinesComplete, this.lines, scaledDelta * 0.001 * this.#lerpLinesCoefficient);
             this.progressElement.style.width = (this.#prevLinesComplete / this.linesToCompletion) * 100 + '%';
 
             if (this.lines >= this.linesToCompletion) {
@@ -260,7 +260,7 @@ class Game {
         if (title) { 
             // check on tester
             this.testTitle.innerHTML = this.projectName;
-            title.style.fontSize = fitTextInContainer(this.testTitle, 0.6, 1.6, this.testTitleContainer.clientHeight, 'rem');
+            title.style.fontSize = Utilities.FitTextInContainer(this.testTitle, 0.6, 1.6, this.testTitleContainer.clientHeight, 'rem');
             title.innerHTML = this.projectName;
         }
     }
