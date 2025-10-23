@@ -23,7 +23,7 @@ export class Cats {
      */
     constructor(cats, pawContainer, scaleFactor) {
         this.#pawPath = new PawWalk(pawContainer, scaleFactor);
-        
+
         for (let i = 0; i < cats.length; i++) {
             this.catDict[cats[i].getAttribute('id')] = [ this.#checkForElement(cats[i], 'content'), this.#checkForElement(cats[i], 'annoyed') ];
             cats[i].addEventListener(`click`, this.annoyCat.bind(this, cats[i].getAttribute('id')));
@@ -95,7 +95,6 @@ class PawWalk {
     #margin = 0;
     #windowMargined;
     #pawContainer;
-    #pathID;
     #pawPool;
     //#endregion
 
@@ -244,7 +243,7 @@ class PawPrint {
     }
     resize(scale) {
         this.scaleFactor = scale;
-        this.pawSize = PawWalk.PAW_BASE_SIZE * scaleFactor;
+        this.pawSize = PawWalk.PAW_BASE_SIZE * this.scaleFactor;
     }
     destroy() {
         this.#element.remove();
