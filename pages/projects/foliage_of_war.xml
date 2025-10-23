@@ -1,0 +1,51 @@
+<h2 class="project-title">Foliage of War</h2>
+
+<p>Foliage of War is a procedural tower defense where you
+ and your army of plants try to defend the last green tree
+ from the herbivore invaders. We were given 2 weeks to
+ create this game with the theme of <em>“Branching Out.”</em></p>
+
+<!--TODO: Add ability for user to play game on this website using embeded games and maybe a button?-->
+<iframe frameborder="0" src="https://itch.io/embed/3622977?bg_color=222222&amp;fg_color=eeeeee&amp;border_color=363636" width="552" height="167"><a href="https://kael-the-vegetable.itch.io/foliage-of-war">Foliage of War by Kael The Vegetable, Supergoodra64, Wolfie, RiftKrieg, Bluffpenguin</a></iframe>
+
+<h3>Concept</h3>
+<p>Our initial concept was a tower defence where the paths
+ generate randomly and branch out into multiple paths as it
+ goes further into the game. Our team was split between 4
+ programmers. I was to create the procedural pathing and
+ the UI for the main menu.</p>
+
+<h3>Process</h3>
+<p>I began first with a sprite sheet of all possible paths that
+ a hexagonal path could take. Unity has a built-in tile generator
+ for this need called a Rule Tile.</p>
+ 
+<p>However, I knew that I wanted paths to be able to be
+ beside each other but not be connected. The way Unity's
+ method works is by just checking if its neighbours are
+ the same type of tile, not checking if it is on the same
+ path or not. This would lead to a weird grid pathing.
+ So I first began with having to make my own system.</p>
+
+ <!-- Script here 
+ Custom Path Tiles
+First I decided this had to be a scriptable object because I would not want to make this more than the first time so I created a “PathSprites.” The first issue I would run into is grabbing the correct sprite for the correct number of connected neighbours and correct neighbours. I had to first check the tile for the number of connections. This allowed me to narrow my search. Instead of checking all possible combinations I only would have to check combinations with that number of connections. In the worst case scenario this would reduce the total from 64 to 20 which is roughly 3 times faster.
+
+After narrowing I then could find the exact pattern of connections and apply that sprite.
+
+The second issue I ran into is validation. With 64 possible sprites each having a unique location of connections I was bound to forget some tiles. Instead of winging it and testing I chose to validate my library of sprites. I did this by running through all 64 possibilities and checking if it could grab the proper state. If not then it would throw an error and tell the user which tile is missing.
+
+Hexagonal Grid
+After getting sprites all fine I now have to work with Unity and Hexagonal coordinates. Unity doesn’t have a built-in Hexagon struct like it does with Vectors so I built my own. The one I used uses Axial coordinates since it is very easy to work in which you can learn more about in this Red Blob Games article. Unity uses Odd-R flipped which means I have to convert between the two to speak with Unity’s end.
+
+From this I then created some methods allowing me to generate tiles and create links between tiles.
+
+Pathing
+Next I had to create the procedural pathing. I could use a number of methods to achieve this but I decided I would go the path of perlin noise. I created a mesh of perlin noise over the tiles that would work as a heuristic (basically a map of places of high resistance and low resistance meaning paths should funnel into specific areas.)
+
+I then created an A* algorithm, which can be learned in this Red Blob Games article, to find the most efficient path for a point on the edge of the map to reach the center, using the perlin noise as a modifier to induce a more interesting pathing. Due to how perlin noise works based on a seed, all of the paths follow the same noise pattern which allows us to “fake” the branching out of paths.
+
+Conclusion
+Overall, this project showed me a lot in the art of procedural generation and how to create a robust system for pathing as well as an efficient custom Rule Tile.
+
+ -->
