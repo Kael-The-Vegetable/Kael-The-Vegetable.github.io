@@ -1,0 +1,15 @@
+<p class="center">View my <a href="https://kael-the-vegetable.itch.io/" target="_" >Itch Page</a> for a full list of all the Games I have made!</p>
+
+<h2>Notable Jams</h2>
+
+<div class="center" >
+    <iframe frameborder="0" src="https://itch.io/embed/4247892?border_width=3&amp;bg_color=000000&amp;fg_color=ffffff&amp;link_color=a9a9a9&amp;border_color=333333" width="556" height="171"><a href="https://kael-the-vegetable.itch.io/prism">PRISM by Kael The Vegetable, CyanideLemons, Wide Wade, dreweeoo, FrootLuips, Peanut_B01</a></iframe>
+    <iframe frameborder="0" src="https://itch.io/embed/3622977?border_width=3&amp;bg_color=1b1618&amp;fg_color=d6d6d6&amp;link_color=5dfa5b&amp;border_color=aa800d" width="556" height="171"><a href="https://kael-the-vegetable.itch.io/foliage-of-war">Foliage of War by Kael The Vegetable, Supergoodra64, Wolfie, RiftKrieg, Bluffpenguin</a></iframe>
+    <iframe frameborder="0" src="https://itch.io/embed/2755332?border_width=3&amp;bg_color=e4fbfa&amp;fg_color=327a8d&amp;link_color=004f64&amp;border_color=5098ab" width="556" height="171"><a href="https://wiblark.itch.io/claw-and-feather">Claw and Feather by wiblark, FrootLuips, Martina, Kael The Vegetable, Heat_Signature, Shayla_C, maxsg5</a></iframe>
+</div>
+    
+<style>
+iframe {
+    margin-bottom: 1.5rem;
+}
+</style>
