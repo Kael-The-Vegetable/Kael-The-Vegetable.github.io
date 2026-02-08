@@ -57,3 +57,10 @@ button[type="submit"] {
     font-weight: 600;
     color: #bc5960;
 }
+
+/*** PORTRAIT LAYOUT ***/
+@media (orientation: portrait) and (max-width: 600px) {
+    #contact-form {
+        width: 100%;
+    }
+}

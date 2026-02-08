@@ -191,3 +191,52 @@ blockquote {
 @media (max-width: 1000px) {
 	:root { font-size: 12px; }
 }
+
+/*** PORTRAIT LAYOUT ***/
+@media (orientation: portrait) and (max-width: 600px) {
+	:root { font-size: 13px; }
+	.layout {
+		width: 100%;
+		flex-direction: column;
+	}
+	.portfolio {
+		width: 100%;
+		padding: 4rem 2rem;
+		line-height: 150%;
+		min-height: auto;
+	}
+	.game {
+		width: 100%;
+		min-height: 100vh;
+		padding: 4rem 4rem;
+	}
+	.navigation {
+		padding-top: 1rem;
+		gap: 1.5rem;
+		/* flex-direction: column; */
+		align-items: center;
+	}
+	.container > * {
+		flex: 0 0 auto;   /* keep natural width */
+		max-width: 50%;   /* prevents 3rd item from fitting */
+	}
+	.navigation > a {
+		border-bottom: 2px solid transparent;
+		padding: 0 0.8rem 0.5rem; /* top | sides | bottom */
+		font-size: 2rem;
+		font-weight: 550;
+	}
+	.navigation > a[data-active="true"] {
+		border-bottom: 2px solid #e2b570;
+	}
+	blockquote {
+		margin: 0 auto;
+	}
+	.resume-grid {
+		grid-template-columns: 1fr;
+	}
+	.stripes {
+		width: 2.4rem;
+		height: 1rem;
+	}
+}
