@@ -1,0 +1,128 @@
+<h2 class="project-title">Roots of Unity</h2>
+
+<p>Roots of Unity was the capstone project for
+ my NAIT Game Programming course. As students,
+ our goal was to create a product for Room 322.
+ We decided to accomplish this by creating a
+ Bullet Heaven game called Roots of Unity.</p>
+
+<h3>Documentation</h3>
+<p>My primary role was to ensure our version
+ control was adequate for a project with 8 people
+ pushing and pulling to GitHub at any given moment.
+ I had spent the first leg of our project ensuring
+ we had clear documentation that also helped the other
+ students know the terminology of GitHub.</p>
+
+<details><summary>GitHub Standards Used</summary>
+    <h4>General Practices</h4>
+    <ul>
+        <li><strong>Commit Often</strong>, and have each commit be roughly one fix, feature, change, etc. This allows for rollbacks of specific features without removing all of the other working code in one commit.</li>
+        <li><strong>Pushes</strong>. If you find yourself finished the feature, ending your workday, or needing to share your work with someone else you will have to push your changes to the remote. This will confirm your changes as the truth. As you push GitHub Desktop will pull any changes just to make sure. This might run you into a merge conflict or you might be just fine.</li>
+        <li><strong>Push On Unique Branches</strong>. All too often multiple people work on the same item in a branch and cause two versions of the same item. To help quell this problem, known as a <b><em>Merge Conflict</em></b>, you should change only <em>new</em> things in a separate new folder when altering a branch. We can format after merging said branch.</li>
+    </ul>
+    
+    <h4>Commit Message Conventions</h4>
+    <ul>
+        <li>
+        <details><summary>Always have your commits be clear, concise, complete, and correct.</summary><ul>
+            <li><strong>Clear</strong>. To be clear means you are not obfuscating the information.</li>
+            <li><strong>Concise</strong>. Your language should be short and read on a glance.</li>
+            <li><strong>Complete</strong>. You shouldn't have incomplete sentences as your commit, <mark>.</mark> or <mark>a</mark> or <mark>thing</mark> or <mark>help me</mark>, etc, are not acceptable commits.</li>
+            <li><strong>Correct</strong>. Your commit message should explain what the commit entails.</li>
+        </ul></details>
+        </li>
+        <li>Always use <a href="https://gitmoji.dev/" target="_">GitMoji</a> at the beginning of commit titles</li>
+    </ul>
+
+    <h4>Branch Structure</h4>
+    <ul>
+        <li><mark>development</mark> this branch is for all development to go into. It is set up as the default so when merging it will default to merge into this branch.</li>
+        <li><mark>publishing</mark> this branch is exclusively for states of the game that are stable and playable. Make builds in this branch once you know the development branch is stable.</li>
+        <li>Branch Naming Conventions<ul>
+            <li><mark>feature/<i>name</i></mark> for any new features.</li>
+            <li><mark>bugfix/<i>name</i></mark> for fixing some major bug.</li>
+        </ul></li>
+    </ul>
+
+    <h4>Workflow</h4>
+    <ol>
+        <li>Create a Branch</li>
+        <li>Work on Changes and Commit Regularly</li>
+        <li>Push Changes</li>
+        <li>If Feature is Done then open a Pull Request</li>
+        <li>Wait for Code Review & Approval before Merging</li>
+        <li>Merge into Parent Branch</li>
+        <li>Delete Branch After Successful Merge</li>
+    </ol>
+
+    <h4>Pull Requests</h4>
+    <ul>
+        <li>When making a pull request always provide a descriptive title and summary of the changes.</li>
+        <li>You should never merge without having others check over the work.</li>
+        <li>To get people's attention you can add reviewers to check the request.</li>
+        <li>After it has been reviewed and confirmed then you can merge the changes. If everything was done correctly you should not get any merge conflicts.</li>
+    </ul>
+
+    <h4>Handling Merge Conflicts</h4>
+    <p>You are required to fix the merge conflict before pushing your changes. Depending on what file is conflicted this might be incredibly easy or your worst nightmare.</p>
+    <p><mark>.cs</mark> files should be very simple to fix. If it is a <mark>.meta</mark> or <mark>.unity</mark> file it may be impossible to fix.</p>
+</details>
+
+<details><summary>Coding Standards Used</summary>
+    <h4>General Coding Practices</h4>
+    <ul>
+        <li>Code Readability
+            <ul>
+                <li><strong>Descriptive variables</strong>. For example: instead of using <mark>Vector3 a = new Vector3(b.x,0,b.z);</mark> you can use <mark>Vector3 flattenedPos = new Vector3(pos.x, 0, pos.y);</mark> This will help everyone around you understand what the variable is.</li>
+                <li><strong>Commenting</strong>. When commenting try to comment <em>why</em> the code exists and not what it does. The code should explain what it does. Why does it exist and what is its purpose?</li>
+                <li><strong>Summaries</strong>. Similar to comments these are to explain your variables and methods. instead of <mark>//</mark> use <mark>///</mark> right before the method or variable to start a summary. This is what creates the description of what it does once you hover over the method name.</li>
+            </ul>
+        <div class="codeBlock" style="font-size:0.75rem;">
+            <div class="line">1</div>
+            <div class="code"><span class="summary">/// &ltsummary&gtUsed to save data of any type.&lt/summary&gt</span></div>
+            <div class="line">2</div>
+            <div class="code"><span class="summary">/// &lttypeparam</span> <span class="variable">name</span>=<span class="string">"T"</span><span class="summary">&gt&lt/typeparam&gt</span></div>
+            <div class="line">3</div>
+            <div class="code"><span class="summary">/// &ltparam</span> <span class="variable">name</span>=<span class="string">"filePath"</span><span class="summary">&gtPath to file, excluding master directory.&lt/param&gt</span></div>
+            <div class="line">4</div>
+            <div class="code"><span class="summary">/// &ltparam</span> <span class="variable">name</span>=<span class="string">"dataToSave"</span><span class="summary">&gtThe data that needs to be saved.&lt/param&gt</span></div>
+            <div class="line">5</div>
+            <div class="code"><span class="summary">/// &ltreturns&gtTrue if it saved properly, false if not.&lt/returns&gt</span></div>
+            <div class="line">6</div>
+            <div class="code"><span class="keyword">public static</span> bool <span class="method">SaveData</span>&ltT&gt(string <span class="variable">filePath</span>, T <span class="variable">dataToSave</span>)</div>
+        </div>
+        </li>
+        <li>Error Handling. When there might be an issue and incorrect data gets into a script you REQUIRE error handling. This includes standard things such as <mark>try { } catch { }</mark> or Guard Clauses.
+        <li>No Commented Out Code. Once you are complete with an idea and it is working, remove commented out code if present.</li>
+    </ul>
+
+    <h4>Code Structure</h4>
+    <ul>
+        <li>Class Structure
+            <ul>
+                <li>One class per file. This can be different for maybe a general <mark>Interfaces.cs</mark> file but keep classes to one per file.</li>
+                <li>Standard Member Arrangement. Keep classes using this format.
+                    <ol>
+                        <li>Fields and Properties</li>
+                        <li>Constructors (if any)</li>
+                        <li>Unity Methods (e.g., <mark>Start</mark>, <mark>Update</mark>)</li>
+                        <li>Custom Methods</li>
+                    </ol>
+                </li>
+                <li>Namespaces. With a large project such as this it is very useful to have namespaces such as <mark>namespace RootofUnity.Managers</mark>.</li>
+                <li>Access Modifiers. Always explicitly declare the access modifier you wish to use (<mark>public</mark>, <mark>private</mark>, <mark>internal</mark>, etc). Default should be <mark>private</mark> unless it requires broader access.</li>
+                <li>Regions. use <mark>#region</mark> as much as possible when grouping together information.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h4>Naming Conventions</h4>
+    <ul>
+        <li><strong>Classes & Interfaces</strong> Use PascalCase and add an additional <b>I</b> to the front of interfaces.</li>
+        <li><strong>Methods, Enums, & Properties</strong> Use PascalCase.</li>
+        <li><strong>Fields</strong>use camelCase. (method variables fall under this aswell).</li>
+        <li><strong>Constants</strong> use ALL_CAPS with an <mark>_</mark> between words.</li>
+        <li><strong>Private Variables</strong> add an <mark>_</mark> before the variable.</li>
+    </ul>
+</details>
