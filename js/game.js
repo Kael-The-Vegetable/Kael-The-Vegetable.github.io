@@ -51,6 +51,7 @@ class Game {
     #prevTimeStamp;
     #prevLinesComplete = 0;
     #lerpLinesCoefficient = 2;
+    #gameCount = 0;
     
     // Constants
     #lineRange = new NumberRange(10000, 15000);
@@ -119,6 +120,7 @@ class Game {
         this.juiceButton = document.getElementById(`juicer`);
         this.linesElement = document.getElementById(`lines`);
         this.titleElement = document.getElementById(`title`);
+        this.counter = document.getElementById(`counter`);
         this.testTitle = document.getElementById(`title-test`);
         this.testTitleContainer = document.getElementById('title-container-test');
         this.progressElement = document.getElementById(`progress`);
@@ -129,7 +131,6 @@ class Game {
         ];
         this.monitorLarge = document.getElementById(`monitor-large`);
         this.monitorSmall = document.getElementById(`monitor-small`);
-
 
         //#region Initialize Monitor Lines
         this.monitorLarge.style.opacity = '1';
@@ -257,6 +258,7 @@ class Game {
         this.projectName = Projects.newProject();
         this.linesToCompletion = Math.round(this.#lineRange.random());
         const title = this.titleElement;
+        this.counter.innerHTML = ++this.#gameCount;
         if (title) { 
             // check on tester
             this.testTitle.innerHTML = this.projectName;
