@@ -30,7 +30,7 @@
 <p>&nbsp;</p>
 
 <p class="center note"><small>
-<img src="media/punolite-plus-remake.png" style="width:100%; height:0.8rem; border:2px solid #32495f;" draggable="false"><br>
+<img class="palette" src="media/punolite-plus-remake.png" draggable="false"><br>
 &nbsp;<br>
 This website was designed using the <a href="https://lospec.com/palette-list/punolite-plus-remake" target="_">Punolite Plus Remake</a> colour palette by <i>Punoli</i>, and features open-source fonts by <i>Ryoichi Tsunekawa</i> and <i>Brian J. Bonislawsky</i>.
 </small></p>

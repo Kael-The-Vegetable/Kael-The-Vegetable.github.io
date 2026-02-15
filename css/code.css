@@ -3,7 +3,7 @@
 	grid-template-columns: 5ch 1fr; /* fixed width | fills remaining */
 	width: fit-content; margin: 0 auto;
 	padding: 1.5rem;
-	border: 2px solid #32495f;
+	border: 3px solid #32495f;
 	border-radius: 1rem;
 	background: #070c1d;
 }
@@ -15,3 +15,10 @@
 .codeBlock .bool { color: #e2b570 }
 .codeBlock .method { color: #eee98a  }
 .codeBlock .keyword { color: #e494d9 }
+
+/*** PORTRAIT LAYOUT ***/
+@media (orientation: portrait) and (max-width: 600px) {
+	.codeBlock {
+		border: 2px solid #32495f;
+	}
+}
