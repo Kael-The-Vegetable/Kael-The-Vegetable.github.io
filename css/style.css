@@ -28,6 +28,8 @@ body {
 	width: 90%;
 }
 .portfolio {
+	display: flex;
+	flex-direction: column;
 	width: 72%;
 	min-height: 100vh;
 	padding: 4rem;
@@ -181,6 +183,21 @@ blockquote {
 		transparent 1rem
 	);
 }
+.scroll-down {
+	display: none;
+	margin-top: auto;
+	position: relative;
+	bottom: -1.5rem;
+    padding: 0.5rem 0.8rem;
+	border-width: 0;
+    border-radius: 0.5rem;
+    font-family: "SometypeMono-Variable", sans-serif;
+	font-size: 1.2rem;
+    font-weight: 500;
+	background: #32495f;
+	color: #e3f5f1;
+    cursor: pointer;
+}
 
 @media (max-width: 1400px) {
 	:root { font-size: 16px; }
@@ -190,6 +207,9 @@ blockquote {
 }
 @media (max-width: 1000px) {
 	:root { font-size: 12px; }
+}
+@media (max-width: 800px) {
+	:root { font-size: 10px; }
 }
 
 /*** PORTRAIT LAYOUT ***/
@@ -203,7 +223,6 @@ blockquote {
 		width: 100%;
 		padding: 4rem 2rem;
 		line-height: 150%;
-		min-height: auto;
 	}
 	.game {
 		width: 100%;
@@ -238,5 +257,8 @@ blockquote {
 	.stripes {
 		width: 2.4rem;
 		height: 1rem;
+	}
+	.scroll-down {
+		display: block;
 	}
 }
