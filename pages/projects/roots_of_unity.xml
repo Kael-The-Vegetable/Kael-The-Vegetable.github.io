@@ -126,3 +126,7 @@
         <li><strong>Private Variables</strong> add an <mark>_</mark> before the variable.</li>
     </ul>
 </details>
+
+<h3>Audio System</h3>
+<p>After the creation of the documentation, I began working on tools for the designers that would help them implement assets quickly.</p>
+<p>A notable tool I made was the Audio System. This system allowed designers to add sounds to a Scriptable Object database that then would be able to </p>
