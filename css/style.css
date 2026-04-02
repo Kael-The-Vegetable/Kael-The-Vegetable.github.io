@@ -237,16 +237,15 @@ blockquote {
 	.navigation {
 		padding-top: 1rem;
 		gap: 1.5rem;
-		/* flex-direction: column; */
 		align-items: center;
 	}
 	.container > * {
-		flex: 0 0 auto;   /* keep natural width */
-		max-width: 50%;   /* prevents 3rd item from fitting */
+		flex: 0 0 auto;
+		max-width: 50%;
 	}
 	.navigation > a {
 		border-bottom: 2px solid transparent;
-		padding: 0 0.8rem 0.5rem; /* top | sides | bottom */
+		padding: 0 0.8rem 0.5rem;
 		font-size: 2rem;
 		font-weight: 550;
 	}
