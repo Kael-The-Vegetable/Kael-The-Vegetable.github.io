@@ -17,3 +17,11 @@
     transition: opacity 0.5s ease-out;
 }
 
+/*** PORTRAIT LAYOUT ***/
+@media (orientation: portrait) and (max-width: 600px) {
+    .paw-print {
+		width: 120px;
+		height: 120px;
+	}
+}
+

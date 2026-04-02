@@ -9,7 +9,6 @@
 	min-height: 6rem;
 }
 .game-category {
-	display: inline-block;
 	color: #81afb5;
 	text-align: center;
 }
@@ -103,4 +102,40 @@
 @keyframes pulse {
     0% { border-color: #1f394d; }
     100% { border-color: #b7d974; }
+}
+
+/*** PORTRAIT LAYOUT ***/
+@media (orientation: portrait) and (max-width: 600px) {
+	.game-category {
+		font-size: 1.4rem;
+	}
+	.game-title-container{
+		min-height: 4.2rem; max-height: 4.2rem;
+	}
+	.game-title {
+		font-size: 1.6rem;
+		line-height: 125%;
+		font-weight: 400;
+		padding: 0.5rem 0;
+	}
+	.game-progress {
+		width: 100%; 
+		height: 0.8rem;
+		min-height: 0.8rem;
+		margin-bottom: 0.5rem;
+	}
+	.game-lines {
+		font-size: 3.5rem;
+		font-weight: 550;
+	}
+	.game-juicer {
+		border: 2px solid;
+		font-size: 2rem;
+		font-weight: 600;
+	}
+	.game-start {
+		border: 2px solid;
+		font-size: 1.8rem;
+		font-weight: 500;
+	}
 }
